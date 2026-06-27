@@ -32,32 +32,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // Lista de países con banderas
-  const paises = [
-    { codigo: 'PE', nombre: 'Perú', bandera: '🇵🇪' },
-    { codigo: 'CO', nombre: 'Colombia', bandera: '🇨🇴' },
-    { codigo: 'AR', nombre: 'Argentina', bandera: '🇦🇷' },
-    { codigo: 'ES', nombre: 'España', bandera: '🇪🇸' },
-    { codigo: 'CL', nombre: 'Chile', bandera: '🇨🇱' },
-    { codigo: 'BR', nombre: 'Brasil', bandera: '🇧🇷' },
-    { codigo: 'MX', nombre: 'México', bandera: '🇲🇽' },
-    { codigo: 'US', nombre: 'EE.UU.', bandera: '🇺🇸' },
-  ];
-
-  // Marcas patrocinadoras
-  const marcas = [
-    { nombre: 'HUAWEI', color: '#757575' },
-    { nombre: 'Google Education', color: '#4285f4' },
-    { nombre: 'UBTECH', color: '#757575' },
-    { nombre: 'Open LMS', color: '#757575' },
-    { nombre: 'edpuzzle', color: '#757575' },
-    { nombre: 'edulink', color: '#757575' },
-  ];
-
-  const marcas2 = [
-    'MIXED REALITY', 'Zoluxiones', 'UHMAN GROUP', 'GICODIAC', 'WAREM', 'MIS'
-  ];
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm overflow-y-auto">
       <div className="relative flex flex-col items-center justify-start py-6 w-full max-w-full h-full">
@@ -69,7 +43,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           <FaTimes className="text-xl" />
         </button>
 
-        {/* ===== FLYER ===== */}
+        {/* ===== FLYER MODERNO ===== */}
         <div 
           ref={certificateRef}
           style={{
@@ -84,365 +58,409 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             flexDirection: 'column',
             overflow: 'hidden',
             boxShadow: '0 25px 70px rgba(0,0,0,0.5)',
+            borderRadius: '24px',
           }}
         >
           
-          {/* ================= PARTE SUPERIOR ================= */}
-          <div style={{ display: 'flex', width: '100%', height: '1150px', position: 'relative' }}>
-            
-            {/* --- MITAD IZQUIERDA: FOTO --- */}
-            <div style={{ 
-              width: '48%', 
-              height: '100%', 
-              overflow: 'hidden', 
-              backgroundColor: '#f0f4f8',
-              position: 'relative',
+          {/* ===== FONDO CON GRADIENTE ===== */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(145deg, #0a1628 0%, #1a2a4a 30%, #0d2137 60%, #1a2a4a 100%)',
+            zIndex: 0,
+          }} />
+
+          {/* ===== PATRÓN DE FONDO ===== */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundImage: `
+              radial-gradient(circle at 20% 30%, rgba(66,133,244,0.08) 0%, transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(234,67,53,0.06) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(251,188,5,0.04) 0%, transparent 60%),
+              repeating-linear-gradient(45deg, transparent, transparent 80px, rgba(255,255,255,0.02) 80px, rgba(255,255,255,0.02) 81px)
+            `,
+            zIndex: 1,
+          }} />
+
+          {/* ===== BANDA GOOGLE ===== */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '8px',
+            display: 'flex',
+            zIndex: 5,
+          }}>
+            <div style={{ flex: 1, background: '#4285f4' }} />
+            <div style={{ flex: 1, background: '#ea4335' }} />
+            <div style={{ flex: 1, background: '#fbbc05' }} />
+            <div style={{ flex: 1, background: '#34a853' }} />
+          </div>
+
+          {/* ===== CONTENIDO ===== */}
+          <div style={{
+            position: 'relative',
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '60px 50px 50px 50px',
+            width: '100%',
+            height: '100%',
+          }}>
+
+            {/* ===== LOGO GOOGLE ===== */}
+            <div style={{
               display: 'flex',
-              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+              marginBottom: '15px',
             }}>
-              {userData.fotoUrl ? (
-                <img 
-                  src={userData.fotoUrl} 
-                  alt="Participante" 
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'contain', 
-                    objectPosition: 'center top',
-                    backgroundColor: '#f0f4f8',
-                  }}
-                  crossOrigin="anonymous"
-                />
-              ) : (
-                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(180deg, #e8f0fe, #d2e3fc)' }}>
-                  <span style={{ fontSize: '12rem', color: '#1a73e8', fontWeight: 'bold' }}>
-                    {userData.nombres?.[0] || 'P'}
-                  </span>
-                </div>
-              )}
-              
-              {/* Degradado inferior */}
               <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                width: '100%',
-                height: '30%',
-                background: 'linear-gradient(to top, rgba(26,35,126,0.8) 0%, rgba(13,71,161,0.3) 50%, transparent 100%)',
-                pointerEvents: 'none',
-                zIndex: 2,
-              }} />
-              
-              {/* Banda Google */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                width: '100%',
-                height: '6px',
                 display: 'flex',
-                zIndex: 3,
+                alignItems: 'center',
+                gap: '2px',
+                background: 'rgba(255,255,255,0.06)',
+                padding: '6px 18px 6px 12px',
+                borderRadius: '30px',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.08)',
               }}>
-                <div style={{ flex: 1, background: '#4285f4' }} />
-                <div style={{ flex: 1, background: '#ea4335' }} />
-                <div style={{ flex: 1, background: '#fbbc05' }} />
-                <div style={{ flex: 1, background: '#34a853' }} />
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#4285f4' }}>G</span>
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#ea4335' }}>o</span>
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#fbbc05' }}>o</span>
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#4285f4' }}>g</span>
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#34a853' }}>l</span>
+                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#ea4335' }}>e</span>
+                <span style={{
+                  fontSize: '0.8rem',
+                  fontWeight: '500',
+                  color: 'rgba(255,255,255,0.5)',
+                  marginLeft: '6px',
+                  letterSpacing: '0.5px',
+                }}>
+                  for Education
+                </span>
               </div>
             </div>
 
-            {/* --- MITAD DERECHA: CONTENIDO --- */}
-            <div style={{ 
-              width: '52%', 
-              height: '100%', 
-              background: 'linear-gradient(145deg, #1a237e 0%, #0d47a1 40%, #0d47a1 100%)', 
-              padding: '50px 45px 40px 45px',
-              display: 'flex',
-              flexDirection: 'column',
-              color: '#ffffff',
-              position: 'relative'
+            {/* ===== TÍTULO ===== */}
+            <div style={{
+              textAlign: 'center',
+              marginBottom: '15px',
             }}>
-              
-              {/* Logo USS */}
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'flex-end', 
-                gap: '12px', 
-                marginBottom: '50px',
-                borderBottom: '1px solid rgba(255,255,255,0.1)',
-                paddingBottom: '15px',
-              }}>
-                <div style={{ 
-                  fontSize: '3.8rem', 
-                  fontWeight: '900', 
-                  letterSpacing: '-2px', 
-                  lineHeight: '0.8', 
-                  color: '#ffffff',
-                  textShadow: '0 2px 20px rgba(0,0,0,0.2)',
-                }}>USS</div>
-                <div style={{ 
-                  fontSize: '0.95rem', 
-                  fontWeight: '400', 
-                  borderLeft: '2px solid rgba(255,255,255,0.4)', 
-                  paddingLeft: '12px', 
-                  lineHeight: '1.3',
-                  opacity: 0.9,
-                }}>
-                  Universidad<br/><span style={{ fontWeight: '700' }}>Señor de Sipán</span>
-                </div>
-              </div>
-
-              {/* Tag Participación */}
-              <div style={{ 
-                alignSelf: 'flex-start', 
-                backgroundColor: 'rgba(255,255,255,0.12)', 
-                backdropFilter: 'blur(10px)',
-                color: '#ffffff', 
-                padding: '6px 25px', 
-                borderRadius: '30px', 
-                fontWeight: '600', 
-                fontSize: '0.95rem', 
-                marginBottom: '20px', 
-                letterSpacing: '1px',
-                border: '1px solid rgba(255,255,255,0.1)',
+              <p style={{
+                fontSize: '0.9rem',
+                fontWeight: '300',
+                color: 'rgba(255,255,255,0.4)',
+                letterSpacing: '6px',
+                margin: 0,
+                textTransform: 'uppercase',
               }}>
                 Yo participaré en la
-              </div>
-
-              {/* Título CIE 2026 */}
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
-                <span style={{ 
-                  fontSize: '6.5rem', 
-                  fontWeight: '900', 
-                  letterSpacing: '-3px', 
-                  lineHeight: '0.8', 
-                  color: '#ffffff',
-                  textShadow: '0 4px 30px rgba(0,0,0,0.2)',
-                }}>CIE</span>
-                <div style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  fontSize: '2.4rem', 
-                  fontWeight: '900', 
-                  lineHeight: '0.8', 
-                  borderLeft: '4px solid #fbbc05', 
-                  paddingLeft: '10px', 
-                  color: '#fbbc05',
-                }}>
-                  <span>20</span>
-                  <span>26</span>
-                </div>
-              </div>
-
-              {/* Banderas */}
-              <div style={{ 
-                display: 'flex', 
-                gap: '6px', 
-                marginBottom: '30px', 
-                flexWrap: 'wrap',
-                backgroundColor: 'rgba(255,255,255,0.05)',
-                padding: '8px 14px',
-                borderRadius: '30px',
-                border: '1px solid rgba(255,255,255,0.06)',
-                alignSelf: 'flex-start',
+              </p>
+              <h1 style={{
+                fontSize: 'clamp(2.8rem, 3.8vw, 4.5rem)',
+                fontWeight: '800',
+                color: '#ffffff',
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                margin: '8px 0 0 0',
+                lineHeight: '1.05',
+                textShadow: '0 4px 30px rgba(0,0,0,0.3)',
               }}>
-                {paises.map((pais, idx) => (
-                  <span key={idx} style={{ 
-                    fontSize: '1.3rem', 
-                    cursor: 'default',
-                    transition: 'transform 0.2s',
-                  }} title={pais.nombre}>
-                    {pais.bandera}
-                  </span>
-                ))}
+                Certificación
+              </h1>
+              <h2 style={{
+                fontSize: 'clamp(2.2rem, 3.2vw, 3.8rem)',
+                fontWeight: '800',
+                background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textTransform: 'uppercase',
+                letterSpacing: '3px',
+                margin: '-6px 0 0 0',
+                lineHeight: '1.05',
+              }}>
+                Google LEVEL 1
+              </h2>
+            </div>
+
+            {/* ===== LÍNEA DECORATIVA ===== */}
+            <div style={{
+              width: '80px',
+              height: '3px',
+              display: 'flex',
+              margin: '5px 0 25px 0',
+              borderRadius: '2px',
+              overflow: 'hidden',
+            }}>
+              <div style={{ flex: 1, background: '#4285f4' }} />
+              <div style={{ flex: 1, background: '#ea4335' }} />
+              <div style={{ flex: 1, background: '#fbbc05' }} />
+              <div style={{ flex: 1, background: '#34a853' }} />
+            </div>
+
+            {/* ===== FOTO - GRANDE Y BIEN ADAPTADA ===== */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '40px',
+              marginBottom: '20px',
+              width: '100%',
+              justifyContent: 'center',
+            }}>
+              {/* Foto circular con borde premium */}
+              <div style={{
+                width: '200px',
+                height: '200px',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                border: '5px solid rgba(255,255,255,0.9)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 0 0 2px #4285f4, 0 0 0 4px #ea4335, 0 0 0 6px #fbbc05, 0 0 0 8px #34a853',
+                flexShrink: 0,
+                backgroundColor: '#1a2a4a',
+              }}>
+                {userData.fotoUrl ? (
+                  <img 
+                    src={userData.fotoUrl} 
+                    alt="Participante" 
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                    }}
+                    crossOrigin="anonymous"
+                  />
+                ) : (
+                  <div style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #4285f4, #ea4335, #fbbc05, #34a853)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <span style={{
+                      fontSize: '4rem',
+                      color: 'white',
+                      fontWeight: 'bold',
+                    }}>
+                      {userData.nombres?.[0] || 'P'}{userData.apellidos?.[0] || 'P'}
+                    </span>
+                  </div>
+                )}
               </div>
 
-              {/* Información del Evento */}
-              <div style={{ marginBottom: '12px' }}>
-                <h2 style={{ 
-                  fontSize: '2rem', 
-                  fontWeight: '800', 
-                  lineHeight: '1.2', 
-                  textTransform: 'uppercase', 
-                  letterSpacing: '0.5px',
+              {/* Nombre del participante */}
+              <div style={{
+                textAlign: 'left',
+              }}>
+                <h3 style={{
+                  fontSize: 'clamp(2rem, 2.8vw, 3.2rem)',
+                  fontWeight: '700',
                   color: '#ffffff',
                   margin: 0,
+                  lineHeight: '1.15',
+                  textShadow: '0 2px 20px rgba(0,0,0,0.2)',
                 }}>
-                  Especialización<br/>
-                  <span style={{ 
-                    background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                  }}>
-                    Google for Education
-                  </span>
-                </h2>
-                
-                <h3 style={{ 
-                  fontSize: '1.3rem', 
-                  fontWeight: '500', 
-                  color: '#90caf9', 
-                  margin: '6px 0 0 0',
-                  letterSpacing: '1px',
-                }}>
-                  LEVEL 1 · Certificación Oficial
+                  {userData.nombres || 'NOMBRE'}
                 </h3>
-              </div>
-
-              {/* Lugar y Fecha */}
-              <div style={{ 
-                display: 'flex', 
-                flexDirection: 'column',
-                gap: '6px',
-                marginBottom: '5px',
-              }}>
-                <div style={{ 
-                  fontSize: '1.1rem', 
-                  fontWeight: '500', 
-                  color: '#e3f2fd',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
+                <h4 style={{
+                  fontSize: 'clamp(1.6rem, 2.2vw, 2.5rem)',
+                  fontWeight: '600',
+                  color: 'rgba(255,255,255,0.6)',
+                  margin: '2px 0 0 0',
+                  lineHeight: '1.15',
                 }}>
-                  <span>📍</span> Chiclayo, Perú
-                </div>
-                <div style={{ 
-                  alignSelf: 'flex-start',
-                  border: '1px solid rgba(255,255,255,0.2)', 
-                  padding: '6px 22px', 
-                  borderRadius: '20px', 
-                  fontSize: '0.95rem', 
+                  {userData.apellidos || 'APELLIDOS'}
+                </h4>
+                <p style={{
+                  fontSize: 'clamp(1rem, 1.2vw, 1.4rem)',
                   fontWeight: '500',
-                  backgroundColor: 'rgba(255,255,255,0.05)',
-                  color: '#e3f2fd',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                }}>
-                  <span>📅</span> Del 5 al 7 de mayo
-                </div>
-              </div>
-
-              {/* --- BLOQUE NOMBRE --- */}
-              <div style={{
-                position: 'absolute',
-                bottom: '35px',
-                right: '0px',
-                width: '100%',
-                backgroundColor: '#0d47a1',
-                padding: '22px 35px',
-                borderTopLeftRadius: '28px',
-                borderBottomLeftRadius: '28px',
-                boxShadow: '-10px 10px 40px rgba(0,0,0,0.3)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                zIndex: 10,
-                borderLeft: '4px solid #fbbc05',
-              }}>
-                <h4 style={{ 
-                  margin: 0, 
-                  fontSize: '2rem', 
-                  fontWeight: '800', 
-                  color: '#ffffff', 
+                  color: '#fbbc05',
+                  margin: '4px 0 0 0',
+                  letterSpacing: '3px',
                   textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  lineHeight: '1.1'
-                }}>
-                  {userData.nombres || 'Diana Carolina'}
-                </h4>
-                <h4 style={{ 
-                  margin: '2px 0 0 0', 
-                  fontSize: '2rem', 
-                  fontWeight: '800', 
-                  color: '#ffffff', 
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  lineHeight: '1.1'
-                }}>
-                  {userData.apellidos || 'Acuña Barboza'}
-                </h4>
-                <p style={{ 
-                  margin: '6px 0 0 0', 
-                  fontSize: '1rem', 
-                  color: '#fbbc05', 
-                  textTransform: 'uppercase', 
-                  fontWeight: '700',
-                  letterSpacing: '3px' 
                 }}>
                   Participante
                 </p>
               </div>
-
             </div>
-          </div>
 
-          {/* ================= PARTE INFERIOR: MARCAS ================= */}
-          <div style={{
-            width: '100%',
-            height: '200px',
-            backgroundColor: '#ffffff',
-            borderTop: '2px solid #f0f0f0',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0 35px',
-            zIndex: 5,
-          }}>
-            {/* Fila superior */}
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center', 
-              width: '100%', 
-              gap: '12px', 
-              flexWrap: 'wrap',
-            }}>
-              {marcas.map((marca, idx) => (
-                <span key={idx} style={{ 
-                  fontSize: '1.1rem', 
-                  fontWeight: '800', 
-                  color: marca.color,
-                  letterSpacing: '0.5px',
-                  opacity: marca.color === '#757575' ? 0.7 : 1,
-                }}>
-                  {marca.nombre}
-                </span>
-              ))}
-            </div>
-            
-            {/* Línea separadora */}
+            {/* ===== FECHA Y LUGAR ===== */}
             <div style={{
-              width: '80%',
-              height: '1px',
-              background: 'linear-gradient(90deg, transparent, #e0e0e0, transparent)',
-              margin: '18px 0',
-            }} />
-
-            {/* Fila inferior */}
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              alignItems: 'center', 
-              width: '100%', 
-              gap: '35px', 
-              flexWrap: 'wrap',
+              textAlign: 'center',
+              marginBottom: '10px',
+              background: 'rgba(255,255,255,0.05)',
+              padding: '10px 28px',
+              borderRadius: '16px',
+              border: '1px solid rgba(255,255,255,0.06)',
+              backdropFilter: 'blur(10px)',
+              width: 'auto',
             }}>
-              {marcas2.map((marca, idx) => (
-                <span key={idx} style={{ 
-                  fontSize: '0.8rem', 
-                  fontWeight: '600', 
-                  color: '#9e9e9e',
-                  letterSpacing: '0.5px',
-                  opacity: 0.7,
+              <p style={{
+                fontSize: '0.9rem',
+                color: 'rgba(255,255,255,0.7)',
+                margin: 0,
+                letterSpacing: '1px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                justifyContent: 'center',
+              }}>
+                <span>📍</span> Chiclayo, Perú
+              </p>
+              <p style={{
+                fontSize: '0.8rem',
+                color: 'rgba(255,255,255,0.4)',
+                margin: '4px 0 0 0',
+                letterSpacing: '1px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                justifyContent: 'center',
+              }}>
+                <span>📅</span> Del 5 al 7 de mayo
+              </p>
+            </div>
+
+            {/* ===== LOGOS DE MARCAS ===== */}
+            <div style={{
+              marginTop: 'auto',
+              width: '100%',
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '20px',
+                flexWrap: 'wrap',
+                padding: '12px 0',
+                borderTop: '1px solid rgba(255,255,255,0.06)',
+              }}>
+                <span style={{
+                  fontSize: '0.7rem',
+                  color: 'rgba(255,255,255,0.3)',
+                  fontWeight: '600',
+                  letterSpacing: '1px',
                 }}>
-                  {marca}
+                  Google Education
                 </span>
-              ))}
+                <span style={{
+                  fontSize: '0.65rem',
+                  color: 'rgba(255,255,255,0.2)',
+                  fontWeight: '400',
+                }}>
+                  •
+                </span>
+                <span style={{
+                  fontSize: '0.7rem',
+                  color: 'rgba(255,255,255,0.3)',
+                  fontWeight: '600',
+                  letterSpacing: '1px',
+                }}>
+                  HUAWEI
+                </span>
+                <span style={{
+                  fontSize: '0.65rem',
+                  color: 'rgba(255,255,255,0.2)',
+                  fontWeight: '400',
+                }}>
+                  •
+                </span>
+                <span style={{
+                  fontSize: '0.7rem',
+                  color: 'rgba(255,255,255,0.3)',
+                  fontWeight: '600',
+                  letterSpacing: '1px',
+                }}>
+                  UBTECH
+                </span>
+                <span style={{
+                  fontSize: '0.65rem',
+                  color: 'rgba(255,255,255,0.2)',
+                  fontWeight: '400',
+                }}>
+                  •
+                </span>
+                <span style={{
+                  fontSize: '0.7rem',
+                  color: 'rgba(255,255,255,0.3)',
+                  fontWeight: '600',
+                  letterSpacing: '1px',
+                }}>
+                  Open LMS
+                </span>
+              </div>
+            </div>
+
+            {/* ===== HASHTAGS ===== */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '12px',
+              flexWrap: 'wrap',
+              marginTop: '8px',
+              paddingTop: '8px',
+              borderTop: '1px solid rgba(255,255,255,0.04)',
+              width: '100%',
+            }}>
+              <span style={{
+                fontSize: '0.55rem',
+                color: '#8ab4f8',
+                fontWeight: '400',
+                background: 'rgba(66,133,244,0.08)',
+                padding: '3px 14px',
+                borderRadius: '12px',
+                border: '1px solid rgba(66,133,244,0.1)',
+              }}>
+                #GoogleForEducation
+              </span>
+              <span style={{
+                fontSize: '0.55rem',
+                color: '#f28b82',
+                fontWeight: '400',
+                background: 'rgba(234,67,53,0.08)',
+                padding: '3px 14px',
+                borderRadius: '12px',
+                border: '1px solid rgba(234,67,53,0.1)',
+              }}>
+                #CertificaciónGoogle
+              </span>
+              <span style={{
+                fontSize: '0.55rem',
+                color: '#fdd663',
+                fontWeight: '400',
+                background: 'rgba(251,188,5,0.08)',
+                padding: '3px 14px',
+                borderRadius: '12px',
+                border: '1px solid rgba(251,188,5,0.1)',
+              }}>
+                #GoogleLevel1
+              </span>
+              <span style={{
+                fontSize: '0.55rem',
+                color: '#81c995',
+                fontWeight: '400',
+                background: 'rgba(52,168,83,0.08)',
+                padding: '3px 14px',
+                borderRadius: '12px',
+                border: '1px solid rgba(52,168,83,0.1)',
+              }}>
+                #USS
+              </span>
             </div>
           </div>
-
         </div>
 
         {/* ===== CONTROLES ===== */}
