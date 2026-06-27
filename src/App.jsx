@@ -5,9 +5,7 @@ import About from './components/About';
 import Benefits from './components/Benefits';
 import Speaker from './components/Speaker';
 import Statistics from './components/Statistics';
-import FAQ from './components/FAQ';
 import CTA from './components/CTA';
-import Footer from './components/Footer';
 
 function App() {
   return (
@@ -44,9 +42,7 @@ function App() {
       <Benefits />
       <Speaker />
       <Statistics />
-      <FAQ />
       <CTA />
-      <Footer />
     </div>
   );
 }
