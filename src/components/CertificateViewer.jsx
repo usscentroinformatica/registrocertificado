@@ -43,7 +43,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           <FaTimes className="text-xl" />
         </button>
 
-        {/* ===== FLYER MODERNO ===== */}
+        {/* ===== FLYER ===== */}
         <div 
           ref={certificateRef}
           style={{
@@ -62,31 +62,15 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           }}
         >
           
-          {/* ===== FONDO CON GRADIENTE ===== */}
+          {/* ===== FONDO CON GRADIENTE SUAVE ===== */}
           <div style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'linear-gradient(145deg, #0a1628 0%, #1a2a4a 30%, #0d2137 60%, #1a2a4a 100%)',
+            background: 'linear-gradient(145deg, #e8f0fe 0%, #ffffff 50%, #e8f0fe 100%)',
             zIndex: 0,
-          }} />
-
-          {/* ===== PATRÓN DE FONDO ===== */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundImage: `
-              radial-gradient(circle at 20% 30%, rgba(66,133,244,0.08) 0%, transparent 50%),
-              radial-gradient(circle at 80% 70%, rgba(234,67,53,0.06) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(251,188,5,0.04) 0%, transparent 60%),
-              repeating-linear-gradient(45deg, transparent, transparent 80px, rgba(255,255,255,0.02) 80px, rgba(255,255,255,0.02) 81px)
-            `,
-            zIndex: 1,
           }} />
 
           {/* ===== BANDA GOOGLE ===== */}
@@ -110,124 +94,32 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             position: 'relative',
             zIndex: 2,
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row',
             alignItems: 'center',
-            padding: '60px 50px 50px 50px',
+            padding: '50px 40px',
             width: '100%',
             height: '100%',
+            gap: '30px',
           }}>
 
-            {/* ===== LOGO GOOGLE ===== */}
+            {/* ===== MITAD IZQUIERDA - FOTO GRANDE ===== */}
             <div style={{
+              width: '50%',
+              height: '100%',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              marginBottom: '15px',
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '2px',
-                background: 'rgba(255,255,255,0.06)',
-                padding: '6px 18px 6px 12px',
-                borderRadius: '30px',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.08)',
-              }}>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#4285f4' }}>G</span>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#ea4335' }}>o</span>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#fbbc05' }}>o</span>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#4285f4' }}>g</span>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#34a853' }}>l</span>
-                <span style={{ fontSize: '2rem', fontWeight: '800', color: '#ea4335' }}>e</span>
-                <span style={{
-                  fontSize: '0.8rem',
-                  fontWeight: '500',
-                  color: 'rgba(255,255,255,0.5)',
-                  marginLeft: '6px',
-                  letterSpacing: '0.5px',
-                }}>
-                  for Education
-                </span>
-              </div>
-            </div>
-
-            {/* ===== TÍTULO ===== */}
-            <div style={{
-              textAlign: 'center',
-              marginBottom: '15px',
-            }}>
-              <p style={{
-                fontSize: '0.9rem',
-                fontWeight: '300',
-                color: 'rgba(255,255,255,0.4)',
-                letterSpacing: '6px',
-                margin: 0,
-                textTransform: 'uppercase',
-              }}>
-                Yo participaré en la
-              </p>
-              <h1 style={{
-                fontSize: 'clamp(2.8rem, 3.8vw, 4.5rem)',
-                fontWeight: '800',
-                color: '#ffffff',
-                textTransform: 'uppercase',
-                letterSpacing: '2px',
-                margin: '8px 0 0 0',
-                lineHeight: '1.05',
-                textShadow: '0 4px 30px rgba(0,0,0,0.3)',
-              }}>
-                Certificación
-              </h1>
-              <h2 style={{
-                fontSize: 'clamp(2.2rem, 3.2vw, 3.8rem)',
-                fontWeight: '800',
-                background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textTransform: 'uppercase',
-                letterSpacing: '3px',
-                margin: '-6px 0 0 0',
-                lineHeight: '1.05',
-              }}>
-                Google LEVEL 1
-              </h2>
-            </div>
-
-            {/* ===== LÍNEA DECORATIVA ===== */}
-            <div style={{
-              width: '80px',
-              height: '3px',
-              display: 'flex',
-              margin: '5px 0 25px 0',
-              borderRadius: '2px',
-              overflow: 'hidden',
-            }}>
-              <div style={{ flex: 1, background: '#4285f4' }} />
-              <div style={{ flex: 1, background: '#ea4335' }} />
-              <div style={{ flex: 1, background: '#fbbc05' }} />
-              <div style={{ flex: 1, background: '#34a853' }} />
-            </div>
-
-            {/* ===== FOTO - GRANDE Y BIEN ADAPTADA ===== */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '40px',
-              marginBottom: '20px',
-              width: '100%',
               justifyContent: 'center',
+              padding: '20px',
             }}>
-              {/* Foto circular con borde premium */}
               <div style={{
-                width: '200px',
-                height: '200px',
-                borderRadius: '50%',
+                width: '100%',
+                maxWidth: '450px',
+                aspectRatio: '1/1',
+                borderRadius: '24px',
                 overflow: 'hidden',
-                border: '5px solid rgba(255,255,255,0.9)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 0 0 2px #4285f4, 0 0 0 4px #ea4335, 0 0 0 6px #fbbc05, 0 0 0 8px #34a853',
-                flexShrink: 0,
-                backgroundColor: '#1a2a4a',
+                border: '6px solid white',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.15), 0 0 0 2px #4285f4, 0 0 0 4px #ea4335, 0 0 0 6px #fbbc05, 0 0 0 8px #34a853',
+                backgroundColor: '#f0f4f8',
               }}>
                 {userData.fotoUrl ? (
                   <img 
@@ -236,8 +128,9 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
+                      objectFit: 'contain',
                       objectPosition: 'center',
+                      backgroundColor: '#f0f4f8',
                     }}
                     crossOrigin="anonymous"
                   />
@@ -251,7 +144,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                     justifyContent: 'center',
                   }}>
                     <span style={{
-                      fontSize: '4rem',
+                      fontSize: '6rem',
                       color: 'white',
                       fontWeight: 'bold',
                     }}>
@@ -260,34 +153,126 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* ===== MITAD DERECHA - DATOS ===== */}
+            <div style={{
+              width: '50%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              padding: '20px 10px',
+            }}>
+
+              {/* Logo Google */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '15px',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0px',
+                }}>
+                  <span style={{ fontSize: '2rem', fontWeight: '800', color: '#4285f4' }}>G</span>
+                  <span style={{ fontSize: '2rem', fontWeight: '800', color: '#ea4335' }}>o</span>
+                  <span style={{ fontSize: '2rem', fontWeight: '800', color: '#fbbc05' }}>o</span>
+                  <span style={{ fontSize: '2rem', fontWeight: '800', color: '#4285f4' }}>g</span>
+                  <span style={{ fontSize: '2rem', fontWeight: '800', color: '#34a853' }}>l</span>
+                  <span style={{ fontSize: '2rem', fontWeight: '800', color: '#ea4335' }}>e</span>
+                </div>
+                <span style={{
+                  fontSize: '0.8rem',
+                  fontWeight: '500',
+                  color: '#5f6368',
+                  marginLeft: '4px',
+                }}>
+                  for Education
+                </span>
+              </div>
+
+              {/* Línea decorativa */}
+              <div style={{
+                width: '60px',
+                height: '3px',
+                display: 'flex',
+                marginBottom: '15px',
+                borderRadius: '2px',
+                overflow: 'hidden',
+              }}>
+                <div style={{ flex: 1, background: '#4285f4' }} />
+                <div style={{ flex: 1, background: '#ea4335' }} />
+                <div style={{ flex: 1, background: '#fbbc05' }} />
+                <div style={{ flex: 1, background: '#34a853' }} />
+              </div>
+
+              {/* Tag Participación */}
+              <p style={{
+                fontSize: '0.85rem',
+                fontWeight: '500',
+                color: '#5f6368',
+                letterSpacing: '2px',
+                margin: 0,
+                textTransform: 'uppercase',
+              }}>
+                Yo participaré en la
+              </p>
+
+              {/* Título */}
+              <h1 style={{
+                fontSize: 'clamp(2.2rem, 3vw, 3.5rem)',
+                fontWeight: '800',
+                color: '#1a237e',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+                margin: '2px 0 0 0',
+                lineHeight: '1.05',
+              }}>
+                Certificación
+              </h1>
+              <h2 style={{
+                fontSize: 'clamp(1.8rem, 2.5vw, 3rem)',
+                fontWeight: '800',
+                background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                margin: '-4px 0 15px 0',
+                lineHeight: '1.05',
+              }}>
+                Google LEVEL 1
+              </h2>
 
               {/* Nombre del participante */}
               <div style={{
-                textAlign: 'left',
+                marginBottom: '12px',
               }}>
                 <h3 style={{
-                  fontSize: 'clamp(2rem, 2.8vw, 3.2rem)',
+                  fontSize: 'clamp(1.8rem, 2.4vw, 2.8rem)',
                   fontWeight: '700',
-                  color: '#ffffff',
+                  color: '#1a237e',
                   margin: 0,
                   lineHeight: '1.15',
-                  textShadow: '0 2px 20px rgba(0,0,0,0.2)',
                 }}>
                   {userData.nombres || 'NOMBRE'}
                 </h3>
                 <h4 style={{
-                  fontSize: 'clamp(1.6rem, 2.2vw, 2.5rem)',
+                  fontSize: 'clamp(1.4rem, 1.8vw, 2.2rem)',
                   fontWeight: '600',
-                  color: 'rgba(255,255,255,0.6)',
+                  color: '#5f6368',
                   margin: '2px 0 0 0',
                   lineHeight: '1.15',
                 }}>
                   {userData.apellidos || 'APELLIDOS'}
                 </h4>
                 <p style={{
-                  fontSize: 'clamp(1rem, 1.2vw, 1.4rem)',
-                  fontWeight: '500',
-                  color: '#fbbc05',
+                  fontSize: 'clamp(0.9rem, 1vw, 1.2rem)',
+                  fontWeight: '600',
+                  color: '#4285f4',
                   margin: '4px 0 0 0',
                   letterSpacing: '3px',
                   textTransform: 'uppercase',
@@ -295,170 +280,85 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   Participante
                 </p>
               </div>
-            </div>
 
-            {/* ===== FECHA Y LUGAR ===== */}
-            <div style={{
-              textAlign: 'center',
-              marginBottom: '10px',
-              background: 'rgba(255,255,255,0.05)',
-              padding: '10px 28px',
-              borderRadius: '16px',
-              border: '1px solid rgba(255,255,255,0.06)',
-              backdropFilter: 'blur(10px)',
-              width: 'auto',
-            }}>
-              <p style={{
-                fontSize: '0.9rem',
-                color: 'rgba(255,255,255,0.7)',
-                margin: 0,
-                letterSpacing: '1px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                justifyContent: 'center',
+              {/* Fecha y Lugar */}
+              <div style={{
+                background: '#f8f9fa',
+                padding: '12px 20px',
+                borderRadius: '14px',
+                border: '1px solid #e8eaed',
+                marginBottom: '12px',
               }}>
-                <span>📍</span> Chiclayo, Perú
-              </p>
-              <p style={{
-                fontSize: '0.8rem',
-                color: 'rgba(255,255,255,0.4)',
-                margin: '4px 0 0 0',
-                letterSpacing: '1px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                justifyContent: 'center',
-              }}>
-                <span>📅</span> Del 5 al 7 de mayo
-              </p>
-            </div>
+                <p style={{
+                  fontSize: '0.9rem',
+                  color: '#3c4043',
+                  margin: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}>
+                  <span>📍</span> Chiclayo, Perú
+                </p>
+                <p style={{
+                  fontSize: '0.85rem',
+                  color: '#5f6368',
+                  margin: '4px 0 0 0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}>
+                  <span>📅</span> 30 de junio
+                </p>
+              </div>
 
-            {/* ===== LOGOS DE MARCAS ===== */}
-            <div style={{
-              marginTop: 'auto',
-              width: '100%',
-            }}>
+              {/* Hashtags */}
               <div style={{
                 display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '20px',
                 flexWrap: 'wrap',
-                padding: '12px 0',
-                borderTop: '1px solid rgba(255,255,255,0.06)',
+                gap: '8px',
+                marginTop: '5px',
               }}>
                 <span style={{
-                  fontSize: '0.7rem',
-                  color: 'rgba(255,255,255,0.3)',
-                  fontWeight: '600',
-                  letterSpacing: '1px',
+                  fontSize: '0.6rem',
+                  color: '#4285f4',
+                  background: '#e8f0fe',
+                  padding: '3px 14px',
+                  borderRadius: '12px',
+                  fontWeight: '500',
                 }}>
-                  Google Education
+                  #GoogleForEducation
                 </span>
                 <span style={{
-                  fontSize: '0.65rem',
-                  color: 'rgba(255,255,255,0.2)',
-                  fontWeight: '400',
+                  fontSize: '0.6rem',
+                  color: '#d93025',
+                  background: '#fce8e6',
+                  padding: '3px 14px',
+                  borderRadius: '12px',
+                  fontWeight: '500',
                 }}>
-                  •
+                  #CertificaciónGoogle
                 </span>
                 <span style={{
-                  fontSize: '0.7rem',
-                  color: 'rgba(255,255,255,0.3)',
-                  fontWeight: '600',
-                  letterSpacing: '1px',
+                  fontSize: '0.6rem',
+                  color: '#e37400',
+                  background: '#fef7e0',
+                  padding: '3px 14px',
+                  borderRadius: '12px',
+                  fontWeight: '500',
                 }}>
-                  HUAWEI
+                  #GoogleLevel1
                 </span>
                 <span style={{
-                  fontSize: '0.65rem',
-                  color: 'rgba(255,255,255,0.2)',
-                  fontWeight: '400',
+                  fontSize: '0.6rem',
+                  color: '#1e8e3e',
+                  background: '#e6f4ea',
+                  padding: '3px 14px',
+                  borderRadius: '12px',
+                  fontWeight: '500',
                 }}>
-                  •
-                </span>
-                <span style={{
-                  fontSize: '0.7rem',
-                  color: 'rgba(255,255,255,0.3)',
-                  fontWeight: '600',
-                  letterSpacing: '1px',
-                }}>
-                  UBTECH
-                </span>
-                <span style={{
-                  fontSize: '0.65rem',
-                  color: 'rgba(255,255,255,0.2)',
-                  fontWeight: '400',
-                }}>
-                  •
-                </span>
-                <span style={{
-                  fontSize: '0.7rem',
-                  color: 'rgba(255,255,255,0.3)',
-                  fontWeight: '600',
-                  letterSpacing: '1px',
-                }}>
-                  Open LMS
+                  #USS
                 </span>
               </div>
-            </div>
-
-            {/* ===== HASHTAGS ===== */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '12px',
-              flexWrap: 'wrap',
-              marginTop: '8px',
-              paddingTop: '8px',
-              borderTop: '1px solid rgba(255,255,255,0.04)',
-              width: '100%',
-            }}>
-              <span style={{
-                fontSize: '0.55rem',
-                color: '#8ab4f8',
-                fontWeight: '400',
-                background: 'rgba(66,133,244,0.08)',
-                padding: '3px 14px',
-                borderRadius: '12px',
-                border: '1px solid rgba(66,133,244,0.1)',
-              }}>
-                #GoogleForEducation
-              </span>
-              <span style={{
-                fontSize: '0.55rem',
-                color: '#f28b82',
-                fontWeight: '400',
-                background: 'rgba(234,67,53,0.08)',
-                padding: '3px 14px',
-                borderRadius: '12px',
-                border: '1px solid rgba(234,67,53,0.1)',
-              }}>
-                #CertificaciónGoogle
-              </span>
-              <span style={{
-                fontSize: '0.55rem',
-                color: '#fdd663',
-                fontWeight: '400',
-                background: 'rgba(251,188,5,0.08)',
-                padding: '3px 14px',
-                borderRadius: '12px',
-                border: '1px solid rgba(251,188,5,0.1)',
-              }}>
-                #GoogleLevel1
-              </span>
-              <span style={{
-                fontSize: '0.55rem',
-                color: '#81c995',
-                fontWeight: '400',
-                background: 'rgba(52,168,83,0.08)',
-                padding: '3px 14px',
-                borderRadius: '12px',
-                border: '1px solid rgba(52,168,83,0.1)',
-              }}>
-                #USS
-              </span>
             </div>
           </div>
         </div>
