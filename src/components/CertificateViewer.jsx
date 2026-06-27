@@ -62,7 +62,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           }}
         >
           
-          {/* ===== FONDO CON GRADIENTE SUAVE ===== */}
+          {/* ===== FONDO ===== */}
           <div style={{
             position: 'absolute',
             top: 0,
@@ -128,9 +128,8 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'contain',
+                      objectFit: 'cover',
                       objectPosition: 'center',
-                      backgroundColor: '#f0f4f8',
                     }}
                     crossOrigin="anonymous"
                   />
