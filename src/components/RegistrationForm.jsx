@@ -24,7 +24,7 @@ const RegistrationForm = () => {
     celular: '',
     ciudad: '',
     pais: '',
-    profesion: '', // 👈 CAMBIO: "cargo" → "profesion"
+    profesion: '',
     institucion: '',
     foto: null,
     politica: false
@@ -72,7 +72,7 @@ const RegistrationForm = () => {
         break;
 
       case 'foto':
-        if (!value) error = 'Sube una foto para tu post'; // 👈 CAMBIO
+        if (!value) error = 'Sube una foto para tu post';
         break;
 
       case 'politica':
@@ -173,7 +173,7 @@ const RegistrationForm = () => {
     const result = await registerUser(formDataToSend);
 
     if (result.success) {
-      toast.success('¡Registro exitoso! Tu post está listo.'); // 👈 CAMBIO
+      toast.success('¡Registro exitoso! Tu post está listo.');
       
       setRegisteredUser({
         nombres: formData.nombres,
@@ -216,10 +216,10 @@ const RegistrationForm = () => {
             <FaUniversity className="text-4xl text-uss-blue" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-            Participa y obtén tu <span className="text-uss-blue">Post Digital</span> {/* 👈 CAMBIO */}
+            Participa y obtén tu <span className="text-uss-blue">Post Digital</span>
           </h2>
           <p className="text-gray-500 mt-2 max-w-2xl mx-auto">
-            Completa el formulario y genera tu post de participación. {/* 👈 CAMBIO */}
+            Completa el formulario y genera tu post de participación.
             <span className="block text-sm text-uss-blue font-semibold mt-1">
               ¡Cupos limitados!
             </span>
@@ -337,7 +337,7 @@ const RegistrationForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={`input-modern ${errors.correo && touched.correo ? 'border-red-500' : ''}`}
-                placeholder="ejemplo@correo.com" // 👈 CAMBIO: más general
+                placeholder="ejemplo@correo.com"
                 disabled={isSubmitting}
               />
               {errors.correo && touched.correo && (
@@ -415,7 +415,7 @@ const RegistrationForm = () => {
               )}
             </div>
 
-            {/* 👈 CAMBIO: Profesión u ocupación (antes "Cargo que ocupa") */}
+            {/* Profesión u ocupación */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Profesión u ocupación *
@@ -437,12 +437,10 @@ const RegistrationForm = () => {
               )}
             </div>
 
-            {/* ============================================ */}
-            {/* 👈 CAMBIO: Institución o Empresa + FOTO */}
-            {/* ============================================ */}
+            {/* Institución o Empresa + Foto */}
             <div className="flex flex-col gap-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Institución o Empresa {/* 👈 CAMBIO */}
+                Institución o Empresa
               </label>
               <input
                 type="text"
@@ -450,14 +448,14 @@ const RegistrationForm = () => {
                 value={formData.institucion}
                 onChange={handleChange}
                 className="input-modern"
-                placeholder="Ej: Organización, empresa o institución" {/* 👈 CAMBIO */}
+                placeholder="Ej: Organización, empresa o institución"
                 disabled={isSubmitting}
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Sube tu foto para el post * {/* 👈 CAMBIO */}
+                Sube tu foto para el post *
               </label>
               <div className="flex items-center gap-4">
                 <button
@@ -537,22 +535,22 @@ const RegistrationForm = () => {
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
                     <FaSpinner className="animate-spin" />
-                    Generando tu post... {/* 👈 CAMBIO */}
+                    Generando tu post...
                   </span>
                 ) : success ? (
                   <span className="flex items-center justify-center gap-2">
-                    <FaCheckCircle /> ¡Post listo! {/* 👈 CAMBIO */}
+                    <FaCheckCircle /> ¡Post listo!
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
-                    <FaCheckCircle /> GENERAR MI POST {/* 👈 CAMBIO */}
+                    <FaCheckCircle /> GENERAR MI POST
                   </span>
                 )}
               </button>
 
               {isSubmitting && (
                 <p className="text-sm text-gray-500 mt-3">
-                  Estamos preparando tu post digital... {/* 👈 CAMBIO */}
+                  Estamos preparando tu post digital...
                 </p>
               )}
             </div>
@@ -569,17 +567,17 @@ const RegistrationForm = () => {
               >
                 <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-3" />
                 <h3 className="text-xl font-bold text-green-700 mb-2">
-                  ¡Tu post está listo! {/* 👈 CAMBIO */}
+                  ¡Tu post está listo!
                 </h3>
                 <p className="text-green-600 mb-4">
-                  Comparte tu participación en redes sociales {/* 👈 CAMBIO */}
+                  Comparte tu participación en redes sociales
                 </p>
                 <button
                   onClick={() => setShowCertificate(true)}
                   className="btn-primary flex items-center gap-2 mx-auto"
                 >
                   <FaCertificate />
-                  Ver mi Post {/* 👈 CAMBIO */}
+                  Ver mi Post
                 </button>
               </motion.div>
             )}
