@@ -51,50 +51,21 @@ const Hero = () => {
     },
   };
 
-  const flagWaveAnimation = {
-    y: [0, -8, 0, 8, 0],
-    rotate: [0, -5, 0, 5, 0],
+  const getFlagFlipAnimation = (index) => ({
+    rotateY: [0, 360],
     transition: {
-      duration: 3,
+      duration: 1.1 + index * 0.12,
+      delay: index * 0.2,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: 'easeInOut',
+      repeatDelay: 0.35 + index * 0.1,
     },
-  };
+  });
 
   const pulseAnimation = {
     scale: [1, 1.03, 1],
     transition: {
       duration: 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  };
-
-  const flagsContainerAnimation = {
-    animate: {
-      transition: {
-        staggerChildren: 0.2,
-        repeat: Infinity,
-        repeatDelay: 1,
-      },
-    },
-  };
-
-  // ===== GIRO 360° AUTOMÁTICO CON REBOTE =====
-  const rotate360Animation = {
-    rotateY: [0, 360],
-    transition: {
-      duration: 8,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  };
-
-  // ===== GIRO 360° CON EFECTO RESORTE =====
-  const rotateSpringAnimation = {
-    rotateY: [0, 180, 360],
-    transition: {
-      duration: 10,
       repeat: Infinity,
       ease: "easeInOut",
     },
@@ -186,126 +157,78 @@ const Hero = () => {
               </motion.div>
             </motion.div>
 
-            {/* Banderas */}
+            {/* Reconocimiento internacional + banderas */}
             <motion.div 
               variants={itemVariants}
-              className="flex items-center gap-2 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-gray-100/50"
+              className="flex flex-col items-center gap-3 bg-white/60 backdrop-blur-sm px-5 py-4 rounded-2xl shadow-sm border border-gray-100/50"
+              style={{ perspective: '900px' }}
             >
-              <motion.div
-                animate={{
-                  rotate: [0, 10, -10, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <FaGlobeAmericas className="text-uss-blue text-sm" />
-              </motion.div>
-              <span className="text-xs text-gray-500 font-medium mr-1">Reconocimiento Internacional</span>
-              
-              <motion.div 
-                className="flex gap-1"
-                variants={flagsContainerAnimation}
-                initial="hidden"
-                animate="animate"
-              >
+              <div className="flex items-center gap-2">
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                >
+                  <FaGlobeAmericas className="text-uss-blue text-sm" />
+                </motion.div>
+                <span className="text-xs md:text-sm text-gray-500 font-medium">
+                  Reconocimiento Internacional
+                </span>
+              </div>
+
+              <div className="flex gap-2 justify-center flex-wrap">
                 {flags.map((item, idx) => (
                   <motion.div
-                    key={idx}
-                    animate={flagWaveAnimation}
-                    transition={{
-                      duration: 2.5,
-                      delay: idx * 0.15,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
+                    key={item.code}
+                    animate={getFlagFlipAnimation(idx)}
                     className="cursor-pointer"
+                    style={{ transformStyle: 'preserve-3d' }}
                     title={item.name}
-                    whileHover={{ scale: 1.4, rotate: 15 }}
+                    whileHover={{ scale: 1.35 }}
                   >
                     <ReactCountryFlag
                       countryCode={item.code}
                       svg
                       style={{
-                        width: '24px',
-                        height: '18px',
-                        borderRadius: '2px',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                        width: '28px',
+                        height: '21px',
+                        borderRadius: '3px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.12)',
+                        backfaceVisibility: 'hidden',
                       }}
                     />
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
             </motion.div>
           </motion.div>
 
-          {/* ===== TÍTULO CON GIRO 360° AUTOMÁTICO ===== */}
+          {/* ===== TÍTULO CON CONTORNO ANIMADO ===== */}
           <motion.div
             initial="hidden"
             animate="visible"
-            className="mb-6"
-            style={{ perspective: '1200px' }}
+            className="mb-6 flex justify-center"
           >
-            <motion.h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight">
-              {/* OBTÉN TU - Giro 360° lento */}
-              <motion.span 
-                className="text-gray-800 block"
-                initial={{ opacity: 0, rotateY: -180 }}
-                animate={{ 
-                  opacity: 1, 
-                  rotateY: 0,
-                  transition: {
-                    duration: 0.8,
-                    ease: "easeOut",
-                    delay: 0.2,
-                  }
-                }}
-                whileHover={{ scale: 1.05 }}
-              >
-                OBTÉN TU
-              </motion.span>
-
-              {/* CERTIFICACIÓN - Giro 360° con efecto resorte */}
-              <motion.span 
-                className="text-uss-blue block"
-                initial={{ opacity: 0, rotateY: 180 }}
-                animate={{ 
-                  opacity: 1, 
-                  rotateY: 0,
-                  transition: {
-                    duration: 0.8,
-                    ease: "easeOut",
-                    delay: 0.5,
-                  }
-                }}
-                whileHover={{ scale: 1.05 }}
-              >
-                CERTIFICACIÓN
-              </motion.span>
-
-              {/* GOOGLE - Giro 360° continuo + gradiente animado */}
-              <motion.span 
-                className="bg-gradient-to-r from-[#4285f4] via-[#ea4335] via-[#fbbc05] to-[#34a853] bg-clip-text text-transparent block"
-                initial={{ opacity: 0, rotateY: -180 }}
-                animate={{ 
-                  opacity: 1, 
-                  rotateY: 0,
-                  transition: {
-                    duration: 0.9,
-                    ease: "easeOut",
-                    delay: 0.9,
-                  }
-                }}
-                whileHover={{ scale: 1.08 }}
-                style={{
-                  backgroundSize: '200% 100%',
+            <div className="hero-title-outline">
+              <motion.h1
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight relative z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.8, ease: 'easeOut', delay: 0.2 },
                 }}
               >
-                GOOGLE
-              </motion.span>
-            </motion.h1>
+                <span className="text-gray-800 block">OBTÉN TU</span>
+                <span className="text-uss-blue block">CERTIFICACIÓN</span>
+                <span className="bg-gradient-to-r from-[#4285f4] via-[#ea4335] via-[#fbbc05] to-[#34a853] bg-clip-text text-transparent block">
+                  GOOGLE
+                </span>
+              </motion.h1>
+            </div>
           </motion.div>
 
           {/* ===== SUBTÍTULO ===== */}
