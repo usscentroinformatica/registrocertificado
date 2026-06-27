@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaLinkedinIn } from 'react-icons/fa';
 // Importa la imagen de Daniel
 import danielImage from '../assets/daniel.png';
 
@@ -50,30 +50,17 @@ const Speaker = () => {
             desarrollo de competencias digitales de alto impacto.
           </p>
           
-          <div className="flex justify-center gap-4 mt-6">
+          {/* Solo LinkedIn */}
+          <div className="flex justify-center mt-6">
             <motion.a 
-              href="#" 
+              href="https://pe.linkedin.com/in/daniel-salazarlluen" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-uss-blue hover:text-blue-800 transition-colors"
               whileHover={{ scale: 1.2, rotate: -5 }}
               whileTap={{ scale: 0.9 }}
             >
-              <FaLinkedinIn className="text-2xl" />
-            </motion.a>
-            <motion.a 
-              href="#" 
-              className="text-uss-blue hover:text-blue-800 transition-colors"
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaTwitter className="text-2xl" />
-            </motion.a>
-            <motion.a 
-              href="#" 
-              className="text-uss-blue hover:text-blue-800 transition-colors"
-              whileHover={{ scale: 1.2, rotate: -5 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaYoutube className="text-2xl" />
+              <FaLinkedinIn className="text-3xl" />
             </motion.a>
           </div>
         </motion.div>
