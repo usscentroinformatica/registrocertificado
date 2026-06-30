@@ -1,12 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
 import { FaDownload, FaTimes, FaShare, FaFacebook, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const certificateRef = useRef();
 
   useEffect(() => {
@@ -17,13 +15,10 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
   }, []);
 
   const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      document.body.style.overflow = 'unset';
-      if (onClose) {
-        onClose();
-      }
-    }, 300);
+    document.body.style.overflow = 'unset';
+    if (onClose) {
+      onClose();
+    }
   };
 
   useEffect(() => {
@@ -61,11 +56,8 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  if (!isVisible) {
-    return null;
-  }
-
-  const flyerContent = (
+  // 👈 RENDERIZADO DIRECTO - SIN PORTAL
+  return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4">
       <div className="relative flex flex-col items-center justify-start py-6 w-full max-w-full h-full">
         
@@ -260,7 +252,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Yo participaré en la
               </p>
 
-              {/* Título - TAMAÑOS FIJOS */}
+              {/* Título */}
               <h1 style={{
                 fontSize: '1.8rem',
                 fontWeight: '800',
@@ -286,7 +278,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Google LEVEL 1
               </h2>
 
-              {/* Nombre del participante - TAMAÑOS FIJOS */}
+              {/* Nombre del participante */}
               <div style={{
                 marginBottom: '6px',
                 width: '100%',
@@ -443,8 +435,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
       </div>
     </div>
   );
-
-  return ReactDOM.createPortal(flyerContent, document.body);
 };
 
 export default CertificateViewer;
