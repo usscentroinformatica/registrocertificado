@@ -40,6 +40,43 @@ const RegistrationForm = () => {
 
   const { registerUser, isSubmitting, success } = useGoogleSheetsRegistration();
 
+  // 👈 VALIDACIÓN PARA DESHABILITAR EL BOTÓN
+  const isFormValid = () => {
+    // Verificar campos obligatorios
+    const nombres = formData.nombres?.trim();
+    const apellidos = formData.apellidos?.trim();
+    const correo = formData.correo?.trim();
+    const numeroDocumento = formData.numeroDocumento?.trim();
+    const celular = formData.celular?.trim();
+    const tipoDocumento = formData.tipoDocumento;
+    const pais = formData.pais;
+    const profesion = formData.profesion?.trim();
+    const foto = formData.foto;
+    const politica = formData.politica;
+
+    // Validar que todos los campos obligatorios estén llenos
+    const camposObligatorios = {
+      nombres,
+      apellidos,
+      correo,
+      numeroDocumento,
+      celular,
+      tipoDocumento,
+      pais,
+      profesion,
+      foto,
+      politica
+    };
+
+    // Verificar que todos tengan valor
+    const todosLlenos = Object.values(camposObligatorios).every(val => {
+      if (typeof val === 'boolean') return val === true;
+      return val && val.length > 0;
+    });
+
+    return todosLlenos;
+  };
+
   // Validar campo individual
   const validateField = (name, value) => {
     let error = '';
@@ -525,12 +562,12 @@ const RegistrationForm = () => {
               </div>
             </div>
 
-            {/* Botón Submit */}
+            {/* Botón Submit - DESHABILITADO HASTA COMPLETAR CAMPOS */}
             <div className="md:col-span-2 text-center">
               <button
                 type="submit"
-                className="btn-google w-full md:w-auto px-12 py-3 text-lg disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300"
-                disabled={isSubmitting || success}
+                className="btn-google w-full md:w-auto px-12 py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+                disabled={isSubmitting || success || !isFormValid()}
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -547,6 +584,12 @@ const RegistrationForm = () => {
                   </span>
                 )}
               </button>
+
+              {!isFormValid() && !isSubmitting && !success && (
+                <p className="text-sm text-amber-600 mt-2">
+                  ⚠️ Completa todos los campos obligatorios para generar tu post
+                </p>
+              )}
 
               {isSubmitting && (
                 <p className="text-sm text-gray-500 mt-3">
