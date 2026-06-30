@@ -59,17 +59,16 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // 👈 FUNCIÓN PARA COMPARTIR
+  // Función para compartir
   const shareOnSocialMedia = (platform) => {
     const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
     
-    // Mensaje personalizado para compartir
     const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
                     `👨‍🎓 ${nombreCompleto}\n` +
                     `📅 30 de junio · 3:00 PM\n` +
                     `💻 Modalidad virtual vía Zoom\n\n` +
                     `🏛️ Centro de Informática · Universidad Señor de Sipán\n` +
-                    `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #USS #EducaciónDigital`;
+                    `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #CentroDeInformáticaUSS #EducaciónDigital`;
 
     const url = window.location.href;
     let shareUrl = '';
@@ -96,7 +95,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     }
   };
 
-  // 👈 COMPARTIR CON COPIA
+  // Compartir con copia
   const handleShare = async () => {
     const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
     const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
@@ -104,7 +103,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                     `📅 30 de junio · 3:00 PM\n` +
                     `💻 Modalidad virtual vía Zoom\n\n` +
                     `🏛️ Centro de Informática · Universidad Señor de Sipán\n` +
-                    `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #USS #EducaciónDigital`;
+                    `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #CentroDeInformáticaUSS #EducaciónDigital`;
 
     try {
       if (navigator.share) {
@@ -307,18 +306,18 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               textAlign: 'center',
             }}>
 
-              {/* 👈 Logo Google - SOLO GOOGLE */}
+              {/* 👈 Logo Google - MÁS GRANDE */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: '8px',
+                marginBottom: '10px',
               }}>
                 <img 
                   src={logoGoogle}
                   alt="Google" 
                   style={{
-                    height: '50px',
+                    height: '70px',
                     width: 'auto',
                     objectFit: 'contain',
                   }}
@@ -327,10 +326,10 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
 
               {/* Línea decorativa */}
               <div style={{
-                width: '35px',
-                height: '2px',
+                width: '40px',
+                height: '3px',
                 display: 'flex',
-                marginBottom: '8px',
+                marginBottom: '10px',
                 borderRadius: '2px',
                 overflow: 'hidden',
                 alignSelf: 'center',
@@ -341,64 +340,64 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 <div style={{ flex: 1, background: '#34a853' }} />
               </div>
 
-              {/* 👈 Tag Participación - CAMBIADO A "Yo participé en" */}
+              {/* Tag Participación */}
               <p style={{
-                fontSize: '0.6rem',
+                fontSize: '0.75rem',
                 fontWeight: '500',
                 color: '#5f6368',
-                letterSpacing: '1.5px',
+                letterSpacing: '2px',
                 margin: '0 auto',
                 textTransform: 'uppercase',
               }}>
                 Yo participé en
               </p>
 
-              {/* Título */}
+              {/* Título - MÁS GRANDE */}
               <h1 style={{
-                fontSize: '1.8rem',
+                fontSize: '2.2rem',
                 fontWeight: '800',
                 color: '#1a237e',
                 textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                margin: '2px 0 0 0',
+                letterSpacing: '1px',
+                margin: '4px 0 0 0',
                 lineHeight: '1.05',
               }}>
                 Certificación
               </h1>
               <h2 style={{
-                fontSize: '1.5rem',
+                fontSize: '1.8rem',
                 fontWeight: '800',
                 background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 textTransform: 'uppercase',
-                letterSpacing: '1.5px',
-                margin: '-3px 0 8px 0',
+                letterSpacing: '2px',
+                margin: '-4px 0 12px 0',
                 lineHeight: '1.05',
               }}>
                 Google LEVEL 1
               </h2>
 
-              {/* 👈 Nombre del participante - SIN "Participante" */}
+              {/* 👈 Nombre del participante - MÁS GRANDE Y CON ESPACIO */}
               <div style={{
-                marginBottom: '6px',
+                marginBottom: '10px',
                 width: '100%',
               }}>
                 <h3 style={{
-                  fontSize: '1.8rem',
+                  fontSize: '2.2rem',
                   fontWeight: '700',
                   color: '#1a237e',
                   margin: '0 auto',
-                  lineHeight: '1.15',
+                  lineHeight: '1.2',
                 }}>
                   {userData.nombres || 'NOMBRE'}
                 </h3>
                 <h4 style={{
-                  fontSize: '1.4rem',
+                  fontSize: '1.8rem',
                   fontWeight: '600',
                   color: '#5f6368',
-                  margin: '1px auto 0 auto',
-                  lineHeight: '1.15',
+                  margin: '2px auto 0 auto',
+                  lineHeight: '1.2',
                 }}>
                   {userData.apellidos || 'APELLIDOS'}
                 </h4>
@@ -407,85 +406,95 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               {/* Fecha y Lugar */}
               <div style={{
                 background: '#f8f9fa',
-                padding: '6px 14px',
-                borderRadius: '10px',
+                padding: '8px 16px',
+                borderRadius: '12px',
                 border: '1px solid #e8eaed',
-                marginBottom: '6px',
+                marginBottom: '8px',
                 width: '100%',
-                maxWidth: '200px',
+                maxWidth: '220px',
                 alignSelf: 'center',
               }}>
                 <p style={{
-                  fontSize: '0.6rem',
+                  fontSize: '0.7rem',
                   color: '#3c4043',
                   margin: 0,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '5px',
+                  gap: '6px',
                 }}>
                   <span>📍</span> Chiclayo, Perú
                 </p>
                 <p style={{
-                  fontSize: '0.55rem',
+                  fontSize: '0.65rem',
                   color: '#5f6368',
-                  margin: '2px 0 0 0',
+                  margin: '3px 0 0 0',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '5px',
+                  gap: '6px',
                 }}>
-                  <span>📅</span> 30 de junio
+                  <span>📅</span> 30 de junio · 3:00 PM
                 </p>
               </div>
 
-              {/* Hashtags */}
+              {/* 👈 Hashtags - CON #CENTRODEINFORMÁTICAUSS */}
               <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: '4px',
-                marginTop: '3px',
+                gap: '5px',
+                marginTop: '4px',
                 justifyContent: 'center',
               }}>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.5rem',
                   color: '#4285f4',
                   background: '#e8f0fe',
-                  padding: '2px 8px',
-                  borderRadius: '8px',
+                  padding: '3px 10px',
+                  borderRadius: '10px',
                   fontWeight: '500',
                 }}>
                   #GoogleForEducation
                 </span>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.5rem',
                   color: '#d93025',
                   background: '#fce8e6',
-                  padding: '2px 8px',
-                  borderRadius: '8px',
+                  padding: '3px 10px',
+                  borderRadius: '10px',
                   fontWeight: '500',
                 }}>
                   #CertificaciónGoogle
                 </span>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.5rem',
                   color: '#e37400',
                   background: '#fef7e0',
-                  padding: '2px 8px',
-                  borderRadius: '8px',
+                  padding: '3px 10px',
+                  borderRadius: '10px',
                   fontWeight: '500',
                 }}>
                   #GoogleLevel1
                 </span>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.5rem',
                   color: '#1e8e3e',
                   background: '#e6f4ea',
-                  padding: '2px 8px',
-                  borderRadius: '8px',
+                  padding: '3px 10px',
+                  borderRadius: '10px',
                   fontWeight: '500',
                 }}>
-                  #USS
+                  #CentroDeInformáticaUSS
+                </span>
+                <span style={{
+                  fontSize: '0.5rem',
+                  color: '#0033a0',
+                  background: '#e8f0fe',
+                  padding: '3px 10px',
+                  borderRadius: '10px',
+                  fontWeight: '500',
+                }}>
+                  #EducaciónDigital
                 </span>
               </div>
             </div>
@@ -505,7 +514,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             </button>
             
             <button
-              onClick={handleShare}
+              onClick={() => setShowShareOptions(!showShareOptions)}
               className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-zinc-700 hover:bg-zinc-600 text-white font-bold rounded-lg shadow-md transition-all"
             >
               <FaShare />
@@ -513,7 +522,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             </button>
           </div>
 
-          {/* 👈 OPCIONES DE COMPARTIR CON FUNCIONALIDAD */}
+          {/* Opciones de compartir */}
           {showShareOptions && (
             <div className="flex justify-around bg-zinc-800 p-4 rounded-xl w-full">
               <button 
