@@ -265,7 +265,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             gap: '15px',
           }}>
 
-            {/* ===== MITAD IZQUIERDA - FOTO CORREGIDA ===== */}
+            {/* ===== MITAD IZQUIERDA - FOTO EN TAMAÑO ORIGINAL ===== */}
             <div style={{
               width: '48%',
               height: '100%',
@@ -284,6 +284,9 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 border: '5px solid white',
                 boxShadow: '0 20px 60px rgba(0,0,0,0.15), 0 0 0 2px #4285f4, 0 0 0 4px #ea4335, 0 0 0 6px #fbbc05, 0 0 0 8px #34a853',
                 backgroundColor: '#f0f4f8',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
                 {userData.fotoUrl ? (
                   <img 
@@ -292,7 +295,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
+                      objectFit: 'contain',
                       objectPosition: 'center',
                     }}
                     crossOrigin="anonymous"
