@@ -6,7 +6,7 @@ import {
 } from 'react-icons/fa';
 import ReactCountryFlag from 'react-country-flag';
 import logoUSS from '../assets/uss.png';
-import logoGoogle from '../assets/logoGoogle.png'; // 👈 Importar logo Google
+import logoGoogle from '../assets/logoGoogle.png';
 
 const Hero = () => {
   const controls = useAnimation();
@@ -121,15 +121,15 @@ const Hero = () => {
         <div className="absolute top-1/3 right-1/4 w-8 h-8 rounded-full border-2 border-[#fbbc05]/10 animate-pulse delay-1000" />
       </div>
 
-      <div className="container mx-auto px-6 lg:px-20 relative z-10 py-12 lg:py-20">
+      <div className="container mx-auto px-6 lg:px-20 relative z-10 py-8 lg:py-12">
         
-        {/* ===== ENCABEZADO - UNA SOLA FILA ===== */}
+        {/* ===== ENCABEZADO - LOGOS MÁS ARRIBA ===== */}
         <motion.div 
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="flex flex-wrap items-center justify-between gap-4 mb-12"
+          className="flex flex-wrap items-center justify-between gap-4 mb-8"
         >
           {/* 👈 Logo USS - Izquierda */}
           <motion.div 
@@ -141,11 +141,11 @@ const Hero = () => {
             <img 
               src={logoUSS} 
               alt="USS - Centro de Informática" 
-              className="h-10 md:h-14 w-auto object-contain"
+              className="h-12 md:h-16 w-auto object-contain"
             />
           </motion.div>
 
-          {/* 👈 Logo Google - Centro (con tamaño ajustado) */}
+          {/* 👈 Logo Google - Centro (MÁS GRANDE) */}
           <motion.div 
             variants={itemVariants}
             className="flex items-center justify-center"
@@ -153,7 +153,7 @@ const Hero = () => {
             <motion.img 
               src={logoGoogle}
               alt="Google" 
-              className="h-10 md:h-16 w-auto object-contain"
+              className="h-14 md:h-20 w-auto object-contain"
               whileHover={{ scale: 1.08, rotate: -2 }}
               transition={{ type: 'spring', stiffness: 300 }}
             />
@@ -212,7 +212,7 @@ const Hero = () => {
         <motion.div
           initial="hidden"
           animate="visible"
-          className="mb-6 flex justify-center"
+          className="mb-4 flex justify-center"
         >
           <div className="hero-title-outline">
             <motion.h1
@@ -240,11 +240,11 @@ const Hero = () => {
             opacity: 1, 
             y: 0,
             transition: {
-              delay: 1.5,
+              delay: 1.2,
               duration: 0.6,
             }
           }}
-          className="text-xl md:text-2xl font-light text-gray-600 mb-8 text-center"
+          className="text-xl md:text-2xl font-light text-gray-600 mb-6 text-center"
         >
           Aprende. Crece.{' '}
           <motion.span 
@@ -274,11 +274,11 @@ const Hero = () => {
               opacity: 1,
               transition: {
                 staggerChildren: 0.08,
-                delayChildren: 1.2,
+                delayChildren: 1.0,
               },
             },
           }}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 max-w-4xl mx-auto mb-10"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 max-w-4xl mx-auto mb-8"
         >
           {[
             { icon: FaCalendarAlt, text: '30 de Junio' },
@@ -334,7 +334,7 @@ const Hero = () => {
             opacity: 1, 
             y: 0,
             transition: {
-              delay: 1.8,
+              delay: 1.6,
               duration: 0.6,
             }
           }}
