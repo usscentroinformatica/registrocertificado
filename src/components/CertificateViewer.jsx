@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import html2canvas from 'html2canvas';
 import { FaDownload, FaTimes, FaShare, FaFacebook, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
@@ -7,6 +7,20 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const certificateRef = useRef();
+
+  // 👈 CORREGIDO: useEffect para prevenir scroll y limpiar
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  // 👈 CORREGIDO: Manejar cierre de forma segura
+  const handleClose = () => {
+    document.body.style.overflow = 'unset';
+    onClose();
+  };
 
   const generateCertificate = async () => {
     if (isGenerating) return;
@@ -37,7 +51,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
       <div className="relative flex flex-col items-center justify-start py-6 w-full max-w-full h-full">
         
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all shadow-lg"
         >
           <FaTimes className="text-xl" />
@@ -397,9 +411,10 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             </button>
           </div>
 
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {showShareOptions && (
               <motion.div 
+                key="share-options"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 15 }}
