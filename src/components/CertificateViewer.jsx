@@ -43,13 +43,13 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           <FaTimes className="text-xl" />
         </button>
 
-        {/* ===== FLYER - FORMATO INSTAGRAM ===== */}
+        {/* ===== FLYER - MÁS ESTRECHO ===== */}
         <div 
           ref={certificateRef}
           style={{
-            width: '1080px',
-            height: '1350px',
-            maxWidth: '100%',
+            width: '800px',
+            height: '1000px',
+            maxWidth: '90%',
             aspectRatio: '4/5',
             backgroundColor: '#ffffff',
             position: 'relative',
@@ -89,17 +89,17 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             <div style={{ flex: 1, background: '#34a853' }} />
           </div>
 
-          {/* ===== CONTENIDO - MÁS COMPACTO ===== */}
+          {/* ===== CONTENIDO ===== */}
           <div style={{
             position: 'relative',
             zIndex: 2,
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            padding: '30px 30px',
+            padding: '25px 25px',
             width: '100%',
             height: '100%',
-            gap: '20px',
+            gap: '15px',
           }}>
 
             {/* ===== MITAD IZQUIERDA - FOTO ===== */}
@@ -113,8 +113,8 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             }}>
               <div style={{
                 width: '100%',
-                maxWidth: '400px',
-                height: '85%',
+                maxWidth: '340px',
+                height: '82%',
                 aspectRatio: 'auto',
                 borderRadius: '20px',
                 overflow: 'hidden',
@@ -144,7 +144,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                     justifyContent: 'center',
                   }}>
                     <span style={{
-                      fontSize: '5rem',
+                      fontSize: '4.5rem',
                       color: 'white',
                       fontWeight: 'bold',
                     }}>
@@ -165,27 +165,27 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               padding: '5px 5px',
             }}>
 
-              {/* Logo Google - Más pequeño */}
+              {/* Logo Google */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                marginBottom: '8px',
+                gap: '5px',
+                marginBottom: '6px',
               }}>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0px',
                 }}>
-                  <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#4285f4' }}>G</span>
-                  <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#ea4335' }}>o</span>
-                  <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#fbbc05' }}>o</span>
-                  <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#4285f4' }}>g</span>
-                  <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#34a853' }}>l</span>
-                  <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#ea4335' }}>e</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#4285f4' }}>G</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#ea4335' }}>o</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#fbbc05' }}>o</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#4285f4' }}>g</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#34a853' }}>l</span>
+                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#ea4335' }}>e</span>
                 </div>
                 <span style={{
-                  fontSize: '0.65rem',
+                  fontSize: '0.55rem',
                   fontWeight: '500',
                   color: '#5f6368',
                   marginLeft: '2px',
@@ -196,10 +196,10 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
 
               {/* Línea decorativa */}
               <div style={{
-                width: '40px',
+                width: '35px',
                 height: '2px',
                 display: 'flex',
-                marginBottom: '8px',
+                marginBottom: '6px',
                 borderRadius: '2px',
                 overflow: 'hidden',
               }}>
@@ -211,7 +211,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
 
               {/* Tag Participación */}
               <p style={{
-                fontSize: '0.65rem',
+                fontSize: '0.55rem',
                 fontWeight: '500',
                 color: '#5f6368',
                 letterSpacing: '1.5px',
@@ -221,9 +221,9 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Yo participaré en la
               </p>
 
-              {/* Título - Más pequeño */}
+              {/* Título */}
               <h1 style={{
-                fontSize: 'clamp(1.6rem, 2.2vw, 2.6rem)',
+                fontSize: 'clamp(1.4rem, 1.8vw, 2.2rem)',
                 fontWeight: '800',
                 color: '#1a237e',
                 textTransform: 'uppercase',
@@ -234,14 +234,14 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Certificación
               </h1>
               <h2 style={{
-                fontSize: 'clamp(1.3rem, 1.8vw, 2.2rem)',
+                fontSize: 'clamp(1.1rem, 1.5vw, 1.8rem)',
                 fontWeight: '800',
                 background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 textTransform: 'uppercase',
                 letterSpacing: '1.5px',
-                margin: '-3px 0 10px 0',
+                margin: '-3px 0 8px 0',
                 lineHeight: '1.05',
               }}>
                 Google LEVEL 1
@@ -249,10 +249,10 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
 
               {/* Nombre del participante */}
               <div style={{
-                marginBottom: '8px',
+                marginBottom: '6px',
               }}>
                 <h3 style={{
-                  fontSize: 'clamp(1.3rem, 1.8vw, 2.2rem)',
+                  fontSize: 'clamp(1.1rem, 1.5vw, 1.8rem)',
                   fontWeight: '700',
                   color: '#1a237e',
                   margin: 0,
@@ -261,7 +261,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   {userData.nombres || 'NOMBRE'}
                 </h3>
                 <h4 style={{
-                  fontSize: 'clamp(1rem, 1.3vw, 1.6rem)',
+                  fontSize: 'clamp(0.85rem, 1.1vw, 1.3rem)',
                   fontWeight: '600',
                   color: '#5f6368',
                   margin: '1px 0 0 0',
@@ -270,7 +270,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   {userData.apellidos || 'APELLIDOS'}
                 </h4>
                 <p style={{
-                  fontSize: 'clamp(0.65rem, 0.8vw, 0.9rem)',
+                  fontSize: 'clamp(0.55rem, 0.7vw, 0.75rem)',
                   fontWeight: '600',
                   color: '#4285f4',
                   margin: '3px 0 0 0',
@@ -281,37 +281,37 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 </p>
               </div>
 
-              {/* Fecha y Lugar - Más compacto */}
+              {/* Fecha y Lugar */}
               <div style={{
                 background: '#f8f9fa',
-                padding: '8px 14px',
-                borderRadius: '12px',
+                padding: '6px 12px',
+                borderRadius: '10px',
                 border: '1px solid #e8eaed',
-                marginBottom: '8px',
+                marginBottom: '6px',
               }}>
                 <p style={{
-                  fontSize: '0.7rem',
+                  fontSize: '0.6rem',
                   color: '#3c4043',
                   margin: 0,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
+                  gap: '5px',
                 }}>
                   <span>📍</span> Chiclayo, Perú
                 </p>
                 <p style={{
-                  fontSize: '0.65rem',
+                  fontSize: '0.55rem',
                   color: '#5f6368',
                   margin: '2px 0 0 0',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
+                  gap: '5px',
                 }}>
                   <span>📅</span> 30 de junio
                 </p>
               </div>
 
-              {/* Hashtags - Más compacto */}
+              {/* Hashtags */}
               <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -319,41 +319,41 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 marginTop: '3px',
               }}>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.4rem',
                   color: '#4285f4',
                   background: '#e8f0fe',
-                  padding: '2px 10px',
-                  borderRadius: '10px',
+                  padding: '2px 8px',
+                  borderRadius: '8px',
                   fontWeight: '500',
                 }}>
                   #GoogleForEducation
                 </span>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.4rem',
                   color: '#d93025',
                   background: '#fce8e6',
-                  padding: '2px 10px',
-                  borderRadius: '10px',
+                  padding: '2px 8px',
+                  borderRadius: '8px',
                   fontWeight: '500',
                 }}>
                   #CertificaciónGoogle
                 </span>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.4rem',
                   color: '#e37400',
                   background: '#fef7e0',
-                  padding: '2px 10px',
-                  borderRadius: '10px',
+                  padding: '2px 8px',
+                  borderRadius: '8px',
                   fontWeight: '500',
                 }}>
                   #GoogleLevel1
                 </span>
                 <span style={{
-                  fontSize: '0.45rem',
+                  fontSize: '0.4rem',
                   color: '#1e8e3e',
                   background: '#e6f4ea',
-                  padding: '2px 10px',
-                  borderRadius: '10px',
+                  padding: '2px 8px',
+                  borderRadius: '8px',
                   fontWeight: '500',
                 }}>
                   #USS
