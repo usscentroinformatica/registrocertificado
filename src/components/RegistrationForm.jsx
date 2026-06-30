@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { 
   FaCheckCircle, 
   FaExclamationCircle, 
@@ -38,16 +38,23 @@ const RegistrationForm = () => {
   
   const fileInputRef = useRef(null);
 
-  const { registerUser, isSubmitting, success } = useGoogleSheetsRegistration();
+  const { registerUser, isSubmitting: isSubmittingHook, success } = useGoogleSheetsRegistration();
+  const [isSubmittingLocal, setIsSubmittingLocal] = useState(false);
+  const isSubmitting = isSubmittingHook || isSubmittingLocal;
 
-  // 👈 Controlar el ciclo de vida del modal
-  useEffect(() => {
-    if (showCertificate && registeredUser) {
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(false);
-    }
-  }, [showCertificate, registeredUser]);
+  // Control del modal
+  const handleViewPost = () => {
+    setIsModalOpen(true);
+    setShowCertificate(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowCertificate(false);
+    setIsModalOpen(false);
+    setTimeout(() => {
+      setRegisteredUser(null);
+    }, 300);
+  };
 
   // Validación para deshabilitar el botón
   const isFormValid = () => {
@@ -90,7 +97,7 @@ const RegistrationForm = () => {
     switch (name) {
       case 'nombres':
       case 'apellidos':
-        if (!value.trim()) error = 'Este campo es obligatorio';
+        if (!value?.trim()) error = 'Este campo es obligatorio';
         else if (value.trim().length < 2) error = 'Mínimo 2 caracteres';
         break;
 
@@ -150,10 +157,15 @@ const RegistrationForm = () => {
     const { name, value, type, checked } = e.target;
     const val = type === 'checkbox' ? checked : value;
 
-    setFormData(prev => ({ ...prev, [name]: val }));
+    let sanitizedVal = val;
+    if (typeof val === 'string' && (name === 'nombres' || name === 'apellidos' || name === 'profesion' || name === 'institucion')) {
+      sanitizedVal = val.replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
+    }
+
+    setFormData(prev => ({ ...prev, [name]: sanitizedVal }));
 
     if (touched[name]) {
-      const error = validateField(name, val);
+      const error = validateField(name, sanitizedVal);
       setErrors(prev => ({ ...prev, [name]: error }));
     }
   };
@@ -192,71 +204,77 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmittingLocal(true);
 
-    if (!validateForm()) {
-      const firstError = document.querySelector('.input-error');
-      if (firstError) {
-        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    try {
+      if (!validateForm()) {
+        const firstError = document.querySelector('.input-error');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        toast.error('Por favor, corrige los errores del formulario');
+        setIsSubmittingLocal(false);
+        return;
       }
-      toast.error('Por favor, corrige los errores del formulario');
-      return;
-    }
 
-    const formDataToSend = new FormData();
-    Object.keys(formData).forEach(key => {
-      if (key !== 'politica' && key !== 'foto') {
-        formDataToSend.append(key, formData[key] || '');
-      }
-    });
-    
-    if (formData.foto) {
-      formDataToSend.append('foto', formData.foto);
-    }
-
-    const result = await registerUser(formDataToSend);
-
-    if (result.success) {
-      toast.success('¡Registro exitoso! Tu post está listo.');
-      
-      setRegisteredUser({
-        nombres: formData.nombres,
-        apellidos: formData.apellidos,
-        email: formData.correo,
-        fotoUrl: result.fotoUrl || fotoPreview,
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach(key => {
+        if (key !== 'politica' && key !== 'foto') {
+          const value = formData[key] || '';
+          const sanitized = value
+            .normalize('NFKD')
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+            .trim();
+          formDataToSend.append(key, sanitized);
+        }
       });
+      
+      if (formData.foto) {
+        formDataToSend.append('foto', formData.foto);
+      }
 
-      setTimeout(() => {
-        setFormData({
-          nombres: '',
-          apellidos: '',
-          tipoDocumento: '',
-          numeroDocumento: '',
-          correo: '',
-          celular: '',
-          ciudad: '',
-          pais: '',
-          profesion: '',
-          institucion: '',
-          foto: null,
-          politica: false
+      const result = await registerUser(formDataToSend);
+
+      if (result?.success) {
+        toast.success('¡Registro exitoso! Tu post está listo.');
+        
+        setRegisteredUser({
+          nombres: formData.nombres || '',
+          apellidos: formData.apellidos || '',
+          email: formData.correo || '',
+          fotoUrl: result.fotoUrl || fotoPreview || null,
         });
-        setFotoPreview(null);
-        setTouched({});
-        setErrors({});
-      }, 3000);
-    } else {
-      toast.error(result.message || 'Error al registrar. Intenta nuevamente.');
-    }
-  };
 
-  // 👈 Cerrar modal de forma segura
-  const handleCloseModal = () => {
-    setShowCertificate(false);
-    setIsModalOpen(false);
-    // Limpiar registeredUser después de un tiempo
-    setTimeout(() => {
-      setRegisteredUser(null);
-    }, 300);
+        setTimeout(() => {
+          setFormData({
+            nombres: '',
+            apellidos: '',
+            tipoDocumento: '',
+            numeroDocumento: '',
+            correo: '',
+            celular: '',
+            ciudad: '',
+            pais: '',
+            profesion: '',
+            institucion: '',
+            foto: null,
+            politica: false
+          });
+          setFotoPreview(null);
+          setTouched({});
+          setErrors({});
+          setIsSubmittingLocal(false);
+        }, 3000);
+      } else {
+        const errorMsg = result?.message || 'Error al registrar. Intenta nuevamente.';
+        toast.error(`❌ ${errorMsg}`);
+        setIsSubmittingLocal(false);
+      }
+    } catch (error) {
+      console.error('Error en handleSubmit:', error);
+      toast.error('❌ Ocurrió un error inesperado. Por favor, intenta nuevamente.');
+      setIsSubmittingLocal(false);
+    }
   };
 
   return (
@@ -295,6 +313,10 @@ const RegistrationForm = () => {
                 className={`input-modern ${errors.nombres && touched.nombres ? 'border-red-500' : ''}`}
                 placeholder="Ej: Juan Carlos"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                lang="es"
               />
               {errors.nombres && touched.nombres && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -317,6 +339,10 @@ const RegistrationForm = () => {
                 className={`input-modern ${errors.apellidos && touched.apellidos ? 'border-red-500' : ''}`}
                 placeholder="Ej: Pérez Gómez"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                lang="es"
               />
               {errors.apellidos && touched.apellidos && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -364,6 +390,12 @@ const RegistrationForm = () => {
                 className={`input-modern ${errors.numeroDocumento && touched.numeroDocumento ? 'border-red-500' : ''}`}
                 placeholder="Ej: 12345678"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                lang="es"
               />
               {errors.numeroDocumento && touched.numeroDocumento && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -386,6 +418,10 @@ const RegistrationForm = () => {
                 className={`input-modern ${errors.correo && touched.correo ? 'border-red-500' : ''}`}
                 placeholder="ejemplo@correo.com"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                lang="es"
               />
               {errors.correo && touched.correo && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -408,6 +444,10 @@ const RegistrationForm = () => {
                 className={`input-modern ${errors.celular && touched.celular ? 'border-red-500' : ''}`}
                 placeholder="+51 987 654 321"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                lang="es"
               />
               {errors.celular && touched.celular && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -429,6 +469,10 @@ const RegistrationForm = () => {
                 className="input-modern"
                 placeholder="Ej: Lima"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                lang="es"
               />
             </div>
 
@@ -476,6 +520,10 @@ const RegistrationForm = () => {
                 className={`input-modern ${errors.profesion && touched.profesion ? 'border-red-500' : ''}`}
                 placeholder="Ej: Estudiante, Ingeniero, Docente, Emprendedor"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                lang="es"
               />
               {errors.profesion && touched.profesion && (
                 <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -497,6 +545,10 @@ const RegistrationForm = () => {
                 className="input-modern"
                 placeholder="Ej: Organización, empresa o institución"
                 disabled={isSubmitting}
+                autoCorrect="off"
+                spellCheck="false"
+                autoComplete="off"
+                lang="es"
               />
             </div>
 
@@ -572,27 +624,29 @@ const RegistrationForm = () => {
               </div>
             </div>
 
-            {/* Botón Submit */}
+            {/* Botón Submit - ESTABLE SIN SPINNER CONDICIONAL */}
             <div className="md:col-span-2 text-center">
               <button
                 type="submit"
                 className="btn-google w-full md:w-auto px-12 py-3 text-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
                 disabled={isSubmitting || success || !isFormValid()}
               >
-                {isSubmitting ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <FaSpinner className="animate-spin" />
-                    Generando tu post...
-                  </span>
-                ) : success ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <FaCheckCircle /> ¡Post listo!
-                  </span>
-                ) : (
-                  <span className="flex items-center justify-center gap-2">
-                    <FaCheckCircle /> GENERAR MI POST
-                  </span>
-                )}
+                <span className="flex items-center justify-center gap-2">
+                  {isSubmitting ? (
+                    <>
+                      <FaSpinner className="animate-spin" />
+                      Generando tu post...
+                    </>
+                  ) : success ? (
+                    <>
+                      <FaCheckCircle /> ¡Post listo!
+                    </>
+                  ) : (
+                    <>
+                      <FaCheckCircle /> GENERAR MI POST
+                    </>
+                  )}
+                </span>
               </button>
 
               {!isFormValid() && !isSubmitting && !success && (
@@ -620,7 +674,7 @@ const RegistrationForm = () => {
                 Comparte tu participación en redes sociales
               </p>
               <button
-                onClick={() => setShowCertificate(true)}
+                onClick={handleViewPost}
                 className="btn-primary flex items-center gap-2 mx-auto"
               >
                 <FaCertificate />
@@ -631,12 +685,14 @@ const RegistrationForm = () => {
         </div>
       </div>
 
-      {/* 👈 Modal del Post - Renderizado condicional con control */}
+      {/* Modal del Post - Controlado */}
       {isModalOpen && registeredUser && (
-        <CertificateViewer 
-          userData={registeredUser}
-          onClose={handleCloseModal}
-        />
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4">
+          <CertificateViewer 
+            userData={registeredUser}
+            onClose={handleCloseModal}
+          />
+        </div>
       )}
     </section>
   );
