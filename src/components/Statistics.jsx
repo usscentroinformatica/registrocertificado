@@ -4,8 +4,7 @@ import {
   FaClock, 
   FaHourglassHalf, 
   FaVideo, 
-  FaUserTie,
-  FaGoogle
+  FaUserTie
 } from 'react-icons/fa';
 
 const Statistics = () => {
@@ -73,26 +72,6 @@ const Statistics = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Badge adicional */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-10 text-center"
-        >
-          <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-md border border-gray-100">
-            <FaGoogle className="text-2xl text-[#4285f4]" />
-            <span className="text-sm font-semibold text-gray-700">
-              Certificación Google for Education
-            </span>
-            <span className="w-1 h-1 rounded-full bg-gray-300" />
-            <span className="text-sm font-semibold text-uss-blue">
-              LEVEL 1
-            </span>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
