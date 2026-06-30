@@ -40,9 +40,8 @@ const RegistrationForm = () => {
 
   const { registerUser, isSubmitting, success } = useGoogleSheetsRegistration();
 
-  // 👈 VALIDACIÓN PARA DESHABILITAR EL BOTÓN
+  // Validación para deshabilitar el botón
   const isFormValid = () => {
-    // Verificar campos obligatorios
     const nombres = formData.nombres?.trim();
     const apellidos = formData.apellidos?.trim();
     const correo = formData.correo?.trim();
@@ -54,7 +53,6 @@ const RegistrationForm = () => {
     const foto = formData.foto;
     const politica = formData.politica;
 
-    // Validar que todos los campos obligatorios estén llenos
     const camposObligatorios = {
       nombres,
       apellidos,
@@ -68,7 +66,6 @@ const RegistrationForm = () => {
       politica
     };
 
-    // Verificar que todos tengan valor
     const todosLlenos = Object.values(camposObligatorios).every(val => {
       if (typeof val === 'boolean') return val === true;
       return val && val.length > 0;
@@ -599,10 +596,11 @@ const RegistrationForm = () => {
             </div>
           </form>
 
-          {/* Mensaje de éxito con botón para ver post */}
-          <AnimatePresence>
+          {/* Mensaje de éxito con botón para ver post - CORREGIDO */}
+          <AnimatePresence mode="wait">
             {success && registeredUser && (
               <motion.div
+                key="success-message"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -628,10 +626,11 @@ const RegistrationForm = () => {
         </motion.div>
       </div>
 
-      {/* Modal del Post */}
-      <AnimatePresence>
+      {/* Modal del Post - CORREGIDO */}
+      <AnimatePresence mode="wait">
         {showCertificate && registeredUser && (
           <CertificateViewer 
+            key="certificate-viewer"
             userData={registeredUser}
             onClose={() => setShowCertificate(false)}
           />
