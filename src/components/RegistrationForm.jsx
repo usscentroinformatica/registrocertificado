@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaCheckCircle, 
   FaExclamationCircle, 
@@ -260,13 +259,7 @@ const RegistrationForm = () => {
           </p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto bg-gradient-to-br from-white to-uss-light-blue p-8 md:p-12 rounded-3xl shadow-premium border border-gray-100"
-        >
+        <div className="max-w-4xl mx-auto bg-gradient-to-br from-white to-uss-light-blue p-8 md:p-12 rounded-3xl shadow-premium border border-gray-100">
           <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
             {/* Nombres */}
             <div>
@@ -559,7 +552,7 @@ const RegistrationForm = () => {
               </div>
             </div>
 
-            {/* Botón Submit - DESHABILITADO HASTA COMPLETAR CAMPOS */}
+            {/* Botón Submit */}
             <div className="md:col-span-2 text-center">
               <button
                 type="submit"
@@ -596,46 +589,37 @@ const RegistrationForm = () => {
             </div>
           </form>
 
-          {/* Mensaje de éxito con botón para ver post - CORREGIDO */}
-          <AnimatePresence mode="wait">
-            {success && registeredUser && (
-              <motion.div
-                key="success-message"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="mt-6 p-6 bg-green-50 border border-green-200 rounded-2xl text-center"
+          {/* Mensaje de éxito con botón para ver post - SIN ANIMATION */}
+          {success && registeredUser && (
+            <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-2xl text-center">
+              <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-3" />
+              <h3 className="text-xl font-bold text-green-700 mb-2">
+                ¡Tu post está listo!
+              </h3>
+              <p className="text-green-600 mb-4">
+                Comparte tu participación en redes sociales
+              </p>
+              <button
+                onClick={() => setShowCertificate(true)}
+                className="btn-primary flex items-center gap-2 mx-auto"
               >
-                <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-3" />
-                <h3 className="text-xl font-bold text-green-700 mb-2">
-                  ¡Tu post está listo!
-                </h3>
-                <p className="text-green-600 mb-4">
-                  Comparte tu participación en redes sociales
-                </p>
-                <button
-                  onClick={() => setShowCertificate(true)}
-                  className="btn-primary flex items-center gap-2 mx-auto"
-                >
-                  <FaCertificate />
-                  Ver mi Post
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                <FaCertificate />
+                Ver mi Post
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Modal del Post - CORREGIDO */}
-      <AnimatePresence mode="wait">
-        {showCertificate && registeredUser && (
+      {/* Modal del Post */}
+      {showCertificate && registeredUser && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4">
           <CertificateViewer 
-            key="certificate-viewer"
             userData={registeredUser}
             onClose={() => setShowCertificate(false)}
           />
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </section>
   );
 };
