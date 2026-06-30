@@ -6,22 +6,26 @@ import { FaDownload, FaTimes, FaShare, FaFacebook, FaTwitter, FaLinkedin, FaWhat
 const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const certificateRef = useRef();
 
+  // 👈 Control de visibilidad para animación de salida
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    
     return () => {
-      document.body.style.overflow = originalOverflow || 'unset';
+      document.body.style.overflow = 'unset';
     };
   }, []);
 
   const handleClose = () => {
-    document.body.style.overflow = 'unset';
-    if (onClose) {
-      onClose();
-    }
+    setIsVisible(false);
+    // Esperar a que termine la animación de salida
+    setTimeout(() => {
+      document.body.style.overflow = 'unset';
+      if (onClose) {
+        onClose();
+      }
+    }, 300);
   };
 
   useEffect(() => {
@@ -57,6 +61,11 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     }
     setIsGenerating(false);
   };
+
+  // 👈 Si no es visible, no renderizar nada
+  if (!isVisible) {
+    return null;
+  }
 
   const flyerContent = (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4">
@@ -437,11 +446,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     </div>
   );
 
-  // 👈 USAR PORTAL PARA RENDERIZAR
-  return ReactDOM.createPortal(
-    flyerContent,
-    document.body
-  );
+  return ReactDOM.createPortal(flyerContent, document.body);
 };
 
 export default CertificateViewer;
