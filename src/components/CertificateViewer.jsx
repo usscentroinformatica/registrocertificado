@@ -33,30 +33,16 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
-  // 👈 GENERAR CERTIFICADO - CON DIMENSIONES REALES
   const generateCertificate = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
     try {
-      const element = certificateRef.current;
-      const rect = element.getBoundingClientRect();
-      
-      const canvas = await html2canvas(element, {
+      const canvas = await html2canvas(certificateRef.current, {
         scale: 3,
         useCORS: true,
         backgroundColor: '#ffffff',
         allowTaint: true,
-        width: rect.width,
-        height: rect.height,
         logging: false,
-        onclone: (document, clonedElement) => {
-          clonedElement.style.width = rect.width + 'px';
-          clonedElement.style.height = rect.height + 'px';
-          clonedElement.style.transform = 'none';
-          clonedElement.style.position = 'relative';
-          clonedElement.style.top = '0';
-          clonedElement.style.left = '0';
-        }
       });
       
       const link = document.createElement('a');
@@ -70,31 +56,17 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // 👈 COMPARTIR CON IMAGEN - CON DIMENSIONES REALES
   const shareWithImage = async () => {
     if (isSharing) return;
     setIsSharing(true);
     
     try {
-      const element = certificateRef.current;
-      const rect = element.getBoundingClientRect();
-      
-      const canvas = await html2canvas(element, {
+      const canvas = await html2canvas(certificateRef.current, {
         scale: 2.5,
         useCORS: true,
         backgroundColor: '#ffffff',
         allowTaint: true,
-        width: rect.width,
-        height: rect.height,
         logging: false,
-        onclone: (document, clonedElement) => {
-          clonedElement.style.width = rect.width + 'px';
-          clonedElement.style.height = rect.height + 'px';
-          clonedElement.style.transform = 'none';
-          clonedElement.style.position = 'relative';
-          clonedElement.style.top = '0';
-          clonedElement.style.left = '0';
-        }
       });
       
       const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
@@ -146,7 +118,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsSharing(false);
   };
 
-  // 👈 COMPARTIR EN REDES SOCIALES
   const shareOnSocialMedia = (platform) => {
     const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
     const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
@@ -234,13 +205,14 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           <FaTimes className="text-xl" />
         </button>
 
-        {/* ===== FLYER - CON DIMENSIONES REALES ===== */}
+        {/* ===== FLYER ===== */}
         <div 
           ref={certificateRef}
           style={{
             width: '800px',
             height: '1000px',
             maxWidth: '90%',
+            aspectRatio: '4/5',
             backgroundColor: '#ffffff',
             position: 'relative',
             fontFamily: "'Poppins', 'Montserrat', Arial, sans-serif",
@@ -293,7 +265,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             gap: '15px',
           }}>
 
-            {/* ===== MITAD IZQUIERDA - FOTO ===== */}
+            {/* ===== MITAD IZQUIERDA - FOTO CORREGIDA ===== */}
             <div style={{
               width: '48%',
               height: '100%',
@@ -305,8 +277,8 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               <div style={{
                 width: '100%',
                 maxWidth: '340px',
-                height: '82%',
-                aspectRatio: 'auto',
+                height: '85%',
+                aspectRatio: '3/4',
                 borderRadius: '20px',
                 overflow: 'hidden',
                 border: '5px solid white',
