@@ -33,7 +33,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
-  // 👈 GENERAR CERTIFICADO - CON DIMENSIONES EXACTAS
   const generateCertificate = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
@@ -50,7 +49,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         height: rect.height,
         logging: false,
         onclone: (document, clonedElement) => {
-          // Forzar las dimensiones exactas en el clon
           clonedElement.style.width = rect.width + 'px';
           clonedElement.style.height = rect.height + 'px';
           clonedElement.style.transform = 'none';
@@ -59,13 +57,12 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           clonedElement.style.left = '0';
           clonedElement.style.aspectRatio = 'auto';
           
-          // Asegurar que la foto mantenga sus dimensiones
-          const fotoContainer = clonedElement.querySelector('[style*="aspectRatio: 4/5"]');
+          const fotoContainer = clonedElement.querySelector('[style*="aspectRatio: 1/1"]');
           if (fotoContainer) {
-            fotoContainer.style.width = '280px';
-            fotoContainer.style.height = '70%';
-            fotoContainer.style.aspectRatio = '4/5';
-            fotoContainer.style.maxWidth = '280px';
+            fotoContainer.style.width = '300px';
+            fotoContainer.style.height = '75%';
+            fotoContainer.style.aspectRatio = '1/1';
+            fotoContainer.style.maxWidth = '300px';
           }
         }
       });
@@ -81,7 +78,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // 👈 COMPARTIR CON IMAGEN - CON DIMENSIONES EXACTAS
   const shareWithImage = async () => {
     if (isSharing) return;
     setIsSharing(true);
@@ -107,12 +103,12 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           clonedElement.style.left = '0';
           clonedElement.style.aspectRatio = 'auto';
           
-          const fotoContainer = clonedElement.querySelector('[style*="aspectRatio: 4/5"]');
+          const fotoContainer = clonedElement.querySelector('[style*="aspectRatio: 1/1"]');
           if (fotoContainer) {
-            fotoContainer.style.width = '280px';
-            fotoContainer.style.height = '70%';
-            fotoContainer.style.aspectRatio = '4/5';
-            fotoContainer.style.maxWidth = '280px';
+            fotoContainer.style.width = '300px';
+            fotoContainer.style.height = '75%';
+            fotoContainer.style.aspectRatio = '1/1';
+            fotoContainer.style.maxWidth = '300px';
           }
         }
       });
@@ -313,7 +309,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             gap: '15px',
           }}>
 
-            {/* ===== MITAD IZQUIERDA - FOTO ===== */}
+            {/* ===== MITAD IZQUIERDA - FOTO MÁS CUADRADA ===== */}
             <div style={{
               width: '48%',
               height: '100%',
@@ -324,9 +320,9 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             }}>
               <div style={{
                 width: '100%',
-                maxWidth: '280px',
-                height: '70%',
-                aspectRatio: '4/5',
+                maxWidth: '300px',
+                height: '75%',
+                aspectRatio: '1/1',
                 borderRadius: '20px',
                 overflow: 'hidden',
                 border: '5px solid white',
