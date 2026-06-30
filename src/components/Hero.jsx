@@ -122,18 +122,18 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 lg:px-20 relative z-10 w-full">
         
-        {/* ===== ENCABEZADO - PEGADO ARRIBA ===== */}
+        {/* ===== ENCABEZADO - CON ESPACIADO EQUILIBRADO ===== */}
         <motion.div 
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="flex flex-wrap items-center justify-between gap-4 mb-6"
+          className="flex flex-wrap items-center justify-between gap-3 md:gap-6 mb-6"
         >
           {/* 👈 Logo USS - Izquierda */}
           <motion.div 
             variants={itemVariants}
-            className="flex items-center bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-gray-100/50 hover:shadow-md transition-shadow"
+            className="flex items-center bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-gray-100/50 hover:shadow-md transition-shadow flex-shrink-0"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
@@ -144,10 +144,10 @@ const Hero = () => {
             />
           </motion.div>
 
-          {/* 👈 Logo Google - Centro */}
+          {/* 👈 Logo Google - Centro (con margen automático) */}
           <motion.div 
             variants={itemVariants}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center flex-1"
           >
             <motion.img 
               src={logoGoogle}
@@ -161,10 +161,10 @@ const Hero = () => {
           {/* 👈 Reconocimiento Internacional + Banderas - Derecha */}
           <motion.div 
             variants={itemVariants}
-            className="flex flex-col items-center bg-white/60 backdrop-blur-sm px-4 py-2.5 rounded-full shadow-sm border border-gray-100/50"
+            className="flex flex-col items-center bg-white/60 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2.5 rounded-full shadow-sm border border-gray-100/50 flex-shrink-0"
             style={{ perspective: '900px' }}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 md:gap-2">
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{
@@ -173,14 +173,14 @@ const Hero = () => {
                   ease: 'easeInOut',
                 }}
               >
-                <FaGlobeAmericas className="text-uss-blue text-sm md:text-base" />
+                <FaGlobeAmericas className="text-uss-blue text-[10px] md:text-sm" />
               </motion.div>
-              <span className="text-xs md:text-sm text-gray-500 font-medium whitespace-nowrap">
+              <span className="text-[8px] md:text-xs text-gray-500 font-medium whitespace-nowrap">
                 Reconocimiento Internacional
               </span>
             </div>
 
-            <div className="flex gap-1.5 justify-center mt-0.5">
+            <div className="flex gap-1 justify-center mt-0.5">
               {flags.map((item, idx) => (
                 <motion.div
                   key={item.code}
@@ -194,10 +194,10 @@ const Hero = () => {
                     countryCode={item.code}
                     svg
                     style={{
-                      width: '24px',
-                      height: '18px',
-                      borderRadius: '3px',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.12)',
+                      width: '18px',
+                      height: '14px',
+                      borderRadius: '2px',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
                       backfaceVisibility: 'hidden',
                     }}
                   />
