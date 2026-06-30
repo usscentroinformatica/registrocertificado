@@ -5,6 +5,7 @@ import logoGoogle from '../assets/logoGoogle.png';
 
 const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const certificateRef = useRef();
 
@@ -59,7 +60,75 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // Función para compartir
+  // 👈 NUEVA FUNCIÓN: Compartir con imagen
+  const shareWithImage = async () => {
+    if (isSharing) return;
+    setIsSharing(true);
+    
+    try {
+      // Generar la imagen del flyer
+      const canvas = await html2canvas(certificateRef.current, {
+        scale: 2.5,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        allowTaint: false,
+        width: 800,
+        height: 1000,
+        logging: false,
+      });
+      
+      const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
+      const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
+                      `👨‍🎓 ${nombreCompleto}\n` +
+                      `📅 30 de junio · 3:00 PM\n` +
+                      `💻 Modalidad virtual vía Zoom\n\n` +
+                      `🏛️ Centro de Informática · Universidad Señor de Sipán\n` +
+                      `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #CentroDeInformáticaUSS #EducaciónDigital`;
+
+      // Convertir canvas a blob
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      
+      // Intentar compartir con la Web Share API (incluye imagen)
+      if (navigator.share && navigator.canShare) {
+        const file = new File([blob], `Certificado_Google_${nombreCompleto}.png`, { type: 'image/png' });
+        const shareData = {
+          title: 'Certificación Google LEVEL 1',
+          text: mensaje,
+          files: [file],
+        };
+        
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          setIsSharing(false);
+          return;
+        }
+      }
+      
+      // Fallback: Descargar imagen + copiar mensaje
+      const link = document.createElement('a');
+      link.download = `Certificado_Google_${nombreCompleto}.png`;
+      link.href = canvas.toDataURL('image/png', 1.0);
+      link.click();
+      
+      // Copiar mensaje al portapapeles
+      try {
+        await navigator.clipboard.writeText(`${mensaje}\n\n${window.location.href}`);
+        alert('✅ Imagen descargada y mensaje copiado.\n\n¡Compártelo en tus redes sociales! 🎉');
+      } catch (clipError) {
+        alert('✅ Imagen descargada.\n\nMensaje para compartir:\n\n' + mensaje);
+      }
+      
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error('Error al compartir:', error);
+        alert('❌ No se pudo compartir. Intenta descargar la imagen y compartirla manualmente.');
+      }
+    }
+    
+    setIsSharing(false);
+  };
+
+  // Función para compartir en redes sociales específicas (con texto)
   const shareOnSocialMedia = (platform) => {
     const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
     
@@ -95,7 +164,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     }
   };
 
-  // Compartir con copia
+  // Compartir con copia (texto + enlace)
   const handleShare = async () => {
     const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
     const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
@@ -306,7 +375,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               textAlign: 'center',
             }}>
 
-              {/* 👈 Logo Google - MÁS GRANDE AÚN */}
+              {/* Logo Google - MÁS GRANDE */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -403,7 +472,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 </h4>
               </div>
 
-              {/* 👈 Fecha y Lugar - EN UNA SOLA LÍNEA */}
+              {/* Fecha y Lugar - EN UNA SOLA LÍNEA */}
               <div style={{
                 background: '#f8f9fa',
                 padding: '8px 16px',
@@ -506,48 +575,16 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               {isGenerating ? 'Procesando...' : 'Descargar Flyer'}
             </button>
             
+            {/* 👈 BOTÓN COMPARTIR CON IMAGEN */}
             <button
-              onClick={() => setShowShareOptions(!showShareOptions)}
-              className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-zinc-700 hover:bg-zinc-600 text-white font-bold rounded-lg shadow-md transition-all"
+              onClick={shareWithImage}
+              disabled={isSharing}
+              className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#ea4335] to-[#fbbc05] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50"
             >
               <FaShare />
-              Compartir
+              {isSharing ? 'Generando...' : 'Compartir Imagen'}
             </button>
           </div>
-
-          {/* Opciones de compartir */}
-          {showShareOptions && (
-            <div className="flex justify-around bg-zinc-800 p-4 rounded-xl w-full">
-              <button 
-                onClick={() => shareOnSocialMedia('whatsapp')}
-                className="text-white text-2xl hover:text-green-500 transition-colors"
-                title="Compartir en WhatsApp"
-              >
-                <FaWhatsapp />
-              </button>
-              <button 
-                onClick={() => shareOnSocialMedia('facebook')}
-                className="text-white text-2xl hover:text-blue-500 transition-colors"
-                title="Compartir en Facebook"
-              >
-                <FaFacebook />
-              </button>
-              <button 
-                onClick={() => shareOnSocialMedia('twitter')}
-                className="text-white text-2xl hover:text-sky-400 transition-colors"
-                title="Compartir en Twitter"
-              >
-                <FaTwitter />
-              </button>
-              <button 
-                onClick={() => shareOnSocialMedia('linkedin')}
-                className="text-white text-2xl hover:text-blue-600 transition-colors"
-                title="Compartir en LinkedIn"
-              >
-                <FaLinkedin />
-              </button>
-            </div>
-          )}
         </div>
 
       </div>
