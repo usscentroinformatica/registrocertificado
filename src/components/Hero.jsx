@@ -73,7 +73,7 @@ const Hero = () => {
   };
 
   return (
-    <header className="relative overflow-hidden min-h-screen flex items-start bg-gradient-to-br from-white via-blue-50/50 to-blue-100/30 pt-6 md:pt-8">
+    <header className="relative overflow-hidden min-h-screen flex items-start bg-gradient-to-br from-white via-blue-50/50 to-blue-100/30 pt-4 md:pt-6">
       
       {/* ===== FONDO ===== */}
       <div className="absolute inset-0 overflow-hidden">
@@ -129,7 +129,7 @@ const Hero = () => {
           variants={containerVariants}
           initial="hidden"
           animate={controls}
-          className="flex flex-wrap items-center justify-between gap-3 mb-6"
+          className="flex flex-wrap items-center justify-between gap-4 mb-6"
         >
           {/* 👈 Logo USS - Izquierda */}
           <motion.div 
@@ -145,7 +145,7 @@ const Hero = () => {
             />
           </motion.div>
 
-          {/* 👈 Logo Google - Centro */}
+          {/* 👈 Logo Google - Centro (MÁS GRANDE) */}
           <motion.div 
             variants={itemVariants}
             className="flex items-center justify-center"
@@ -153,19 +153,19 @@ const Hero = () => {
             <motion.img 
               src={logoGoogle}
               alt="Google" 
-              className="h-12 md:h-16 w-auto object-contain"
+              className="h-16 md:h-24 w-auto object-contain"
               whileHover={{ scale: 1.08, rotate: -2 }}
               transition={{ type: 'spring', stiffness: 300 }}
             />
           </motion.div>
 
-          {/* 👈 Reconocimiento Internacional + Banderas - Derecha */}
+          {/* 👈 Reconocimiento Internacional + Banderas - Derecha (MÁS GRANDE) */}
           <motion.div 
             variants={itemVariants}
-            className="flex flex-col items-center bg-white/60 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-gray-100/50"
+            className="flex flex-col items-center bg-white/60 backdrop-blur-sm px-4 py-2.5 rounded-full shadow-sm border border-gray-100/50"
             style={{ perspective: '900px' }}
           >
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{
@@ -174,14 +174,14 @@ const Hero = () => {
                   ease: 'easeInOut',
                 }}
               >
-                <FaGlobeAmericas className="text-uss-blue text-[10px] md:text-xs" />
+                <FaGlobeAmericas className="text-uss-blue text-sm md:text-base" />
               </motion.div>
-              <span className="text-[8px] md:text-[10px] text-gray-500 font-medium whitespace-nowrap">
+              <span className="text-xs md:text-sm text-gray-500 font-medium whitespace-nowrap">
                 Reconocimiento Internacional
               </span>
             </div>
 
-            <div className="flex gap-1 justify-center">
+            <div className="flex gap-1.5 justify-center mt-0.5">
               {flags.map((item, idx) => (
                 <motion.div
                   key={item.code}
@@ -189,16 +189,16 @@ const Hero = () => {
                   className="cursor-pointer"
                   style={{ transformStyle: 'preserve-3d' }}
                   title={item.name}
-                  whileHover={{ scale: 1.35 }}
+                  whileHover={{ scale: 1.4 }}
                 >
                   <ReactCountryFlag
                     countryCode={item.code}
                     svg
                     style={{
-                      width: '16px',
-                      height: '12px',
-                      borderRadius: '2px',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                      width: '24px',
+                      height: '18px',
+                      borderRadius: '3px',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.12)',
                       backfaceVisibility: 'hidden',
                     }}
                   />
@@ -209,7 +209,7 @@ const Hero = () => {
         </motion.div>
 
         {/* ===== CONTENIDO CENTRAL ===== */}
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)]">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-130px)]">
           
           {/* ===== TÍTULO ===== */}
           <motion.div
