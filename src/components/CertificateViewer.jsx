@@ -306,18 +306,18 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               textAlign: 'center',
             }}>
 
-              {/* 👈 Logo Google - MÁS GRANDE */}
+              {/* 👈 Logo Google - MÁS GRANDE AÚN */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: '10px',
+                marginBottom: '12px',
               }}>
                 <img 
                   src={logoGoogle}
                   alt="Google" 
                   style={{
-                    height: '70px',
+                    height: '90px',
                     width: 'auto',
                     objectFit: 'contain',
                   }}
@@ -326,7 +326,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
 
               {/* Línea decorativa */}
               <div style={{
-                width: '40px',
+                width: '45px',
                 height: '3px',
                 display: 'flex',
                 marginBottom: '10px',
@@ -352,7 +352,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Yo participé en
               </p>
 
-              {/* Título - MÁS GRANDE */}
+              {/* Título */}
               <h1 style={{
                 fontSize: '2.2rem',
                 fontWeight: '800',
@@ -378,7 +378,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Google LEVEL 1
               </h2>
 
-              {/* 👈 Nombre del participante - MÁS GRANDE Y CON ESPACIO */}
+              {/* Nombre del participante */}
               <div style={{
                 marginBottom: '10px',
                 width: '100%',
@@ -403,7 +403,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 </h4>
               </div>
 
-              {/* Fecha y Lugar */}
+              {/* 👈 Fecha y Lugar - EN UNA SOLA LÍNEA */}
               <div style={{
                 background: '#f8f9fa',
                 padding: '8px 16px',
@@ -411,7 +411,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 border: '1px solid #e8eaed',
                 marginBottom: '8px',
                 width: '100%',
-                maxWidth: '220px',
+                maxWidth: '280px',
                 alignSelf: 'center',
               }}>
                 <p style={{
@@ -422,23 +422,16 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '6px',
+                  flexWrap: 'nowrap',
+                  whiteSpace: 'nowrap',
                 }}>
                   <span>📍</span> Chiclayo, Perú
-                </p>
-                <p style={{
-                  fontSize: '0.65rem',
-                  color: '#5f6368',
-                  margin: '3px 0 0 0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                }}>
+                  <span style={{ color: '#dadce0', margin: '0 2px' }}>|</span>
                   <span>📅</span> 30 de junio · 3:00 PM
                 </p>
               </div>
 
-              {/* 👈 Hashtags - CON #CENTRODEINFORMÁTICAUSS */}
+              {/* Hashtags */}
               <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
