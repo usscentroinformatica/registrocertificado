@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import { FaDownload, FaTimes, FaShare, FaFacebook, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
+import logoGoogle from '../assets/logoGoogle.png';
 
 const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const certificateRef = useRef();
 
-  // 👈 Prevenir scroll
+  // Prevenir scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -22,7 +23,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     }
   };
 
-  // 👈 Cerrar con ESC
+  // Cerrar con ESC
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') {
@@ -58,7 +59,72 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // 👈 RENDERIZADO SIMPLE - SIN ANIMACIONES, SIN PORTAL, SIN DEPENDENCIAS COMPLEJAS
+  // 👈 FUNCIÓN PARA COMPARTIR
+  const shareOnSocialMedia = (platform) => {
+    const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
+    
+    // Mensaje personalizado para compartir
+    const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
+                    `👨‍🎓 ${nombreCompleto}\n` +
+                    `📅 30 de junio · 3:00 PM\n` +
+                    `💻 Modalidad virtual vía Zoom\n\n` +
+                    `🏛️ Centro de Informática · Universidad Señor de Sipán\n` +
+                    `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #USS #EducaciónDigital`;
+
+    const url = window.location.href;
+    let shareUrl = '';
+
+    switch(platform) {
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${encodeURIComponent(mensaje + '\n\n' + url)}`;
+        break;
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(mensaje)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(mensaje)}&url=${encodeURIComponent(url)}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+      default:
+        return;
+    }
+
+    if (shareUrl) {
+      window.open(shareUrl, '_blank', 'width=600,height=500,scrollbars=yes');
+    }
+  };
+
+  // 👈 COMPARTIR CON COPIA
+  const handleShare = async () => {
+    const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
+    const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
+                    `👨‍🎓 ${nombreCompleto}\n` +
+                    `📅 30 de junio · 3:00 PM\n` +
+                    `💻 Modalidad virtual vía Zoom\n\n` +
+                    `🏛️ Centro de Informática · Universidad Señor de Sipán\n` +
+                    `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #USS #EducaciónDigital`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Certificación Google LEVEL 1',
+          text: mensaje,
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(`${mensaje}\n\n${window.location.href}`);
+        alert('✅ ¡Enlace copiado al portapapeles! Comparte tu logro en tus redes sociales.');
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error('Error al compartir:', error);
+        alert('❌ No se pudo compartir. Intenta nuevamente.');
+      }
+    }
+  };
+
   return (
     <div 
       className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4"
@@ -94,7 +160,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         }}
       >
         
-        {/* 👈 Botón cerrar - SIMPLE, SIN ANIMACIONES */}
+        {/* Botón cerrar */}
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-lg"
@@ -241,35 +307,22 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               textAlign: 'center',
             }}>
 
-              {/* Logo Google */}
+              {/* 👈 Logo Google - SOLO GOOGLE */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '5px',
-                marginBottom: '6px',
-                width: '100%',
+                marginBottom: '8px',
               }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0px',
-                }}>
-                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#4285f4' }}>G</span>
-                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#ea4335' }}>o</span>
-                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#fbbc05' }}>o</span>
-                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#4285f4' }}>g</span>
-                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#34a853' }}>l</span>
-                  <span style={{ fontSize: '1.3rem', fontWeight: '800', color: '#ea4335' }}>e</span>
-                </div>
-                <span style={{
-                  fontSize: '0.55rem',
-                  fontWeight: '500',
-                  color: '#5f6368',
-                  marginLeft: '2px',
-                }}>
-                  for Education
-                </span>
+                <img 
+                  src={logoGoogle}
+                  alt="Google" 
+                  style={{
+                    height: '50px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
 
               {/* Línea decorativa */}
@@ -277,7 +330,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 width: '35px',
                 height: '2px',
                 display: 'flex',
-                marginBottom: '6px',
+                marginBottom: '8px',
                 borderRadius: '2px',
                 overflow: 'hidden',
                 alignSelf: 'center',
@@ -288,7 +341,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 <div style={{ flex: 1, background: '#34a853' }} />
               </div>
 
-              {/* Tag Participación */}
+              {/* 👈 Tag Participación - CAMBIADO A "Yo participé en" */}
               <p style={{
                 fontSize: '0.6rem',
                 fontWeight: '500',
@@ -297,7 +350,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 margin: '0 auto',
                 textTransform: 'uppercase',
               }}>
-                Yo participaré en la
+                Yo participé en
               </p>
 
               {/* Título */}
@@ -326,13 +379,13 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Google LEVEL 1
               </h2>
 
-              {/* Nombre del participante */}
+              {/* 👈 Nombre del participante - SIN "Participante" */}
               <div style={{
                 marginBottom: '6px',
                 width: '100%',
               }}>
                 <h3 style={{
-                  fontSize: '1.6rem',
+                  fontSize: '1.8rem',
                   fontWeight: '700',
                   color: '#1a237e',
                   margin: '0 auto',
@@ -341,7 +394,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   {userData.nombres || 'NOMBRE'}
                 </h3>
                 <h4 style={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.4rem',
                   fontWeight: '600',
                   color: '#5f6368',
                   margin: '1px auto 0 auto',
@@ -349,16 +402,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 }}>
                   {userData.apellidos || 'APELLIDOS'}
                 </h4>
-                <p style={{
-                  fontSize: '0.7rem',
-                  fontWeight: '600',
-                  color: '#4285f4',
-                  margin: '3px auto 0 auto',
-                  letterSpacing: '2px',
-                  textTransform: 'uppercase',
-                }}>
-                  Participante
-                </p>
               </div>
 
               {/* Fecha y Lugar */}
@@ -462,7 +505,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             </button>
             
             <button
-              onClick={() => setShowShareOptions(!showShareOptions)}
+              onClick={handleShare}
               className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-zinc-700 hover:bg-zinc-600 text-white font-bold rounded-lg shadow-md transition-all"
             >
               <FaShare />
@@ -470,12 +513,37 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             </button>
           </div>
 
+          {/* 👈 OPCIONES DE COMPARTIR CON FUNCIONALIDAD */}
           {showShareOptions && (
             <div className="flex justify-around bg-zinc-800 p-4 rounded-xl w-full">
-              <button className="text-white text-2xl hover:text-green-500 transition-colors"><FaWhatsapp /></button>
-              <button className="text-white text-2xl hover:text-blue-500 transition-colors"><FaFacebook /></button>
-              <button className="text-white text-2xl hover:text-sky-400 transition-colors"><FaTwitter /></button>
-              <button className="text-white text-2xl hover:text-blue-600 transition-colors"><FaLinkedin /></button>
+              <button 
+                onClick={() => shareOnSocialMedia('whatsapp')}
+                className="text-white text-2xl hover:text-green-500 transition-colors"
+                title="Compartir en WhatsApp"
+              >
+                <FaWhatsapp />
+              </button>
+              <button 
+                onClick={() => shareOnSocialMedia('facebook')}
+                className="text-white text-2xl hover:text-blue-500 transition-colors"
+                title="Compartir en Facebook"
+              >
+                <FaFacebook />
+              </button>
+              <button 
+                onClick={() => shareOnSocialMedia('twitter')}
+                className="text-white text-2xl hover:text-sky-400 transition-colors"
+                title="Compartir en Twitter"
+              >
+                <FaTwitter />
+              </button>
+              <button 
+                onClick={() => shareOnSocialMedia('linkedin')}
+                className="text-white text-2xl hover:text-blue-600 transition-colors"
+                title="Compartir en LinkedIn"
+              >
+                <FaLinkedin />
+              </button>
             </div>
           )}
         </div>
