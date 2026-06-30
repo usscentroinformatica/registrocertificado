@@ -276,9 +276,9 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             }}>
               <div style={{
                 width: '100%',
-                maxWidth: '340px',
-                height: '85%',
-                aspectRatio: '3/4',
+                maxWidth: '280px',
+                height: '70%',
+                aspectRatio: '4/5',
                 borderRadius: '20px',
                 overflow: 'hidden',
                 border: '5px solid white',
@@ -307,7 +307,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                     justifyContent: 'center',
                   }}>
                     <span style={{
-                      fontSize: '4.5rem',
+                      fontSize: '4rem',
                       color: 'white',
                       fontWeight: 'bold',
                     }}>
