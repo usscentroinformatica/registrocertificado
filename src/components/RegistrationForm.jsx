@@ -4,9 +4,7 @@ import {
   FaExclamationCircle, 
   FaSpinner, 
   FaGoogle, 
-  FaUniversity,
-  FaCamera,
-  FaUserCircle
+  FaUniversity
 } from 'react-icons/fa';
 import { useGoogleSheetsRegistration } from '../hooks/useGoogleSheetsRegistration';
 import toast from 'react-hot-toast';
@@ -23,16 +21,12 @@ const RegistrationForm = () => {
     pais: '',
     profesion: '',
     institucion: '',
-    foto: null,
     politica: false
   });
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [fotoPreview, setFotoPreview] = useState(null);
   
-  const fileInputRef = useRef(null);
-
   const { registerUser, isSubmitting: isSubmittingHook, success } = useGoogleSheetsRegistration();
   const [isSubmittingLocal, setIsSubmittingLocal] = useState(false);
   const isSubmitting = isSubmittingHook || isSubmittingLocal;
@@ -47,7 +41,6 @@ const RegistrationForm = () => {
     const tipoDocumento = formData.tipoDocumento;
     const pais = formData.pais;
     const profesion = formData.profesion?.trim();
-    const foto = formData.foto;
     const politica = formData.politica;
 
     const camposObligatorios = {
@@ -59,7 +52,6 @@ const RegistrationForm = () => {
       tipoDocumento,
       pais,
       profesion,
-      foto,
       politica
     };
 
@@ -100,10 +92,6 @@ const RegistrationForm = () => {
       case 'tipoDocumento':
       case 'pais':
         if (!value) error = 'Selecciona una opción';
-        break;
-
-      case 'foto':
-        if (!value) error = 'Sube una foto';
         break;
 
       case 'politica':
@@ -159,30 +147,6 @@ const RegistrationForm = () => {
     setErrors(prev => ({ ...prev, [name]: error }));
   };
 
-  // Manejar subida de foto
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        toast.error('Por favor, sube una imagen válida');
-        return;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('La imagen no debe superar los 5MB');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageData = event.target.result;
-        setFotoPreview(imageData);
-        setFormData(prev => ({ ...prev, foto: imageData }));
-        setErrors(prev => ({ ...prev, foto: '' }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmittingLocal(true);
@@ -200,7 +164,7 @@ const RegistrationForm = () => {
 
       const formDataToSend = new FormData();
       Object.keys(formData).forEach(key => {
-        if (key !== 'politica' && key !== 'foto') {
+        if (key !== 'politica') {
           const value = formData[key] || '';
           const sanitized = value
             .normalize('NFKD')
@@ -209,10 +173,6 @@ const RegistrationForm = () => {
           formDataToSend.append(key, sanitized);
         }
       });
-      
-      if (formData.foto) {
-        formDataToSend.append('foto', formData.foto);
-      }
 
       const result = await registerUser(formDataToSend);
 
@@ -231,10 +191,8 @@ const RegistrationForm = () => {
             pais: '',
             profesion: '',
             institucion: '',
-            foto: null,
             politica: false
           });
-          setFotoPreview(null);
           setTouched({});
           setErrors({});
           setIsSubmittingLocal(false);
@@ -506,8 +464,8 @@ const RegistrationForm = () => {
               )}
             </div>
 
-            {/* Institución o Empresa + Foto */}
-            <div className="flex flex-col gap-2">
+            {/* Institución o Empresa */}
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Institución o Empresa
               </label>
@@ -524,54 +482,6 @@ const RegistrationForm = () => {
                 autoComplete="off"
                 lang="es"
               />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Sube tu foto *
-              </label>
-              <div className="flex items-center gap-4">
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-dashed border-gray-300 rounded-xl hover:border-uss-blue transition-colors"
-                  disabled={isSubmitting}
-                >
-                  <FaCamera className="text-uss-blue" />
-                  <span className="text-sm">Seleccionar foto</span>
-                </button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  disabled={isSubmitting}
-                />
-                {fotoPreview ? (
-                  <div className="flex items-center gap-2">
-                    <img 
-                      src={fotoPreview} 
-                      alt="Preview" 
-                      className="w-12 h-12 rounded-full object-cover border-2 border-uss-blue"
-                    />
-                    <span className="text-xs text-gray-500">Foto cargada</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2 text-gray-400">
-                    <FaUserCircle className="text-3xl" />
-                    <span className="text-xs">Sin foto</span>
-                  </div>
-                )}
-              </div>
-              {errors.foto && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
-                  <FaExclamationCircle /> {errors.foto}
-                </p>
-              )}
-              <p className="text-xs text-gray-400 mt-1">
-                Formatos: JPG, PNG (Máx. 5MB)
-              </p>
             </div>
 
             {/* Política de Privacidad */}
