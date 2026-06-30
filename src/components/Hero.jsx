@@ -122,7 +122,7 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 lg:px-20 relative z-10 w-full">
         
-        {/* ===== ENCABEZADO - CON ESPACIADO EQUILIBRADO ===== */}
+        {/* ===== ENCABEZADO ===== */}
         <motion.div 
           ref={ref}
           variants={containerVariants}
@@ -130,7 +130,7 @@ const Hero = () => {
           animate={controls}
           className="flex flex-wrap items-center justify-between gap-3 md:gap-6 mb-6"
         >
-          {/* 👈 Logo USS - Izquierda */}
+          {/* Logo USS */}
           <motion.div 
             variants={itemVariants}
             className="flex items-center bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-gray-100/50 hover:shadow-md transition-shadow flex-shrink-0"
@@ -144,7 +144,7 @@ const Hero = () => {
             />
           </motion.div>
 
-          {/* 👈 Logo Google - Centro (con margen automático) */}
+          {/* Logo Google */}
           <motion.div 
             variants={itemVariants}
             className="flex items-center justify-center flex-1"
@@ -158,7 +158,7 @@ const Hero = () => {
             />
           </motion.div>
 
-          {/* 👈 Reconocimiento Internacional + Banderas - Derecha */}
+          {/* Reconocimiento Internacional */}
           <motion.div 
             variants={itemVariants}
             className="flex flex-col items-center bg-white/60 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2.5 rounded-full shadow-sm border border-gray-100/50 flex-shrink-0"
@@ -210,7 +210,7 @@ const Hero = () => {
         {/* ===== CONTENIDO CENTRAL ===== */}
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-130px)]">
           
-          {/* ===== TÍTULO ===== */}
+          {/* ===== TÍTULO - MÁS GRANDE ===== */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -218,7 +218,7 @@ const Hero = () => {
           >
             <div className="hero-title-outline">
               <motion.h1
-                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight relative z-10 text-center"
+                className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight relative z-10 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{
                   opacity: 1,
