@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { 
   FaCheckCircle, 
   FaExclamationCircle, 
@@ -34,10 +34,20 @@ const RegistrationForm = () => {
   const [fotoPreview, setFotoPreview] = useState(null);
   const [showCertificate, setShowCertificate] = useState(false);
   const [registeredUser, setRegisteredUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const fileInputRef = useRef(null);
 
   const { registerUser, isSubmitting, success } = useGoogleSheetsRegistration();
+
+  // 👈 Controlar el ciclo de vida del modal
+  useEffect(() => {
+    if (showCertificate && registeredUser) {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [showCertificate, registeredUser]);
 
   // Validación para deshabilitar el botón
   const isFormValid = () => {
@@ -237,6 +247,16 @@ const RegistrationForm = () => {
     } else {
       toast.error(result.message || 'Error al registrar. Intenta nuevamente.');
     }
+  };
+
+  // 👈 Cerrar modal de forma segura
+  const handleCloseModal = () => {
+    setShowCertificate(false);
+    setIsModalOpen(false);
+    // Limpiar registeredUser después de un tiempo
+    setTimeout(() => {
+      setRegisteredUser(null);
+    }, 300);
   };
 
   return (
@@ -589,7 +609,7 @@ const RegistrationForm = () => {
             </div>
           </form>
 
-          {/* Mensaje de éxito con botón para ver post - SIN ANIMATION */}
+          {/* Mensaje de éxito */}
           {success && registeredUser && (
             <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-2xl text-center">
               <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-3" />
@@ -611,14 +631,12 @@ const RegistrationForm = () => {
         </div>
       </div>
 
-      {/* Modal del Post */}
-      {showCertificate && registeredUser && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4">
-          <CertificateViewer 
-            userData={registeredUser}
-            onClose={() => setShowCertificate(false)}
-          />
-        </div>
+      {/* 👈 Modal del Post - Renderizado condicional con control */}
+      {isModalOpen && registeredUser && (
+        <CertificateViewer 
+          userData={registeredUser}
+          onClose={handleCloseModal}
+        />
       )}
     </section>
   );
