@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { 
-  FaCalendarAlt, FaClock, FaHourglassHalf, FaVideo, 
-  FaUserTie, FaArrowRight, FaChevronDown, FaGlobeAmericas
+  FaArrowRight, FaChevronDown, FaGlobeAmericas
 } from 'react-icons/fa';
 import ReactCountryFlag from 'react-country-flag';
 import logoUSS from '../assets/uss.png';
@@ -145,7 +144,7 @@ const Hero = () => {
             />
           </motion.div>
 
-          {/* 👈 Logo Google - Centro (MÁS GRANDE) */}
+          {/* 👈 Logo Google - Centro */}
           <motion.div 
             variants={itemVariants}
             className="flex items-center justify-center"
@@ -159,7 +158,7 @@ const Hero = () => {
             />
           </motion.div>
 
-          {/* 👈 Reconocimiento Internacional + Banderas - Derecha (MÁS GRANDE) */}
+          {/* 👈 Reconocimiento Internacional + Banderas - Derecha */}
           <motion.div 
             variants={itemVariants}
             className="flex flex-col items-center bg-white/60 backdrop-blur-sm px-4 py-2.5 rounded-full shadow-sm border border-gray-100/50"
@@ -247,7 +246,7 @@ const Hero = () => {
                 duration: 0.6,
               }
             }}
-            className="text-xl md:text-2xl font-light text-gray-600 mb-6 text-center"
+            className="text-xl md:text-2xl font-light text-gray-600 mb-8 text-center"
           >
             Aprende. Crece.{' '}
             <motion.span 
@@ -266,69 +265,6 @@ const Hero = () => {
             </motion.span>
             {' '}tu futuro.
           </motion.p>
-
-          {/* ===== TARJETAS ===== */}
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.08,
-                  delayChildren: 1.0,
-                },
-              },
-            }}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 max-w-4xl mx-auto mb-8"
-          >
-            {[
-              { icon: FaCalendarAlt, text: '30 de Junio' },
-              { icon: FaClock, text: 'Martes' },
-              { icon: FaHourglassHalf, text: '3:00 PM' },
-              { icon: FaVideo, text: 'Zoom' },
-              { icon: FaUserTie, text: 'Mg. Daniel Salazar' },
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                variants={{
-                  hidden: { opacity: 0, scale: 0.9, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    scale: 1,
-                    y: 0,
-                    transition: {
-                      type: 'spring',
-                      stiffness: 150,
-                      damping: 15,
-                    },
-                  },
-                }}
-                whileHover={{ 
-                  y: -6, 
-                  scale: 1.05,
-                  boxShadow: '0 10px 30px rgba(0,51,160,0.15)',
-                }}
-                className="bg-white/70 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-white/50 text-center cursor-default"
-              >
-                <motion.div
-                  animate={{
-                    y: [0, -3, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    delay: idx * 0.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <item.icon className="text-uss-blue text-lg mx-auto mb-1" />
-                </motion.div>
-                <p className="font-semibold text-gray-700 text-xs md:text-sm">{item.text}</p>
-              </motion.div>
-            ))}
-          </motion.div>
 
           {/* ===== BOTONES ===== */}
           <motion.div 
