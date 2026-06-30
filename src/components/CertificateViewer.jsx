@@ -6,6 +6,7 @@ import logoGoogle from '../assets/logoGoogle.png';
 const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
+  const [showShareOptions, setShowShareOptions] = useState(false);
   const certificateRef = useRef();
 
   useEffect(() => {
@@ -32,28 +33,29 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
-  // 👈 GENERAR CERTIFICADO - CORREGIDO
+  // 👈 GENERAR CERTIFICADO - CON DIMENSIONES REALES
   const generateCertificate = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
     try {
-      const canvas = await html2canvas(certificateRef.current, {
+      const element = certificateRef.current;
+      const rect = element.getBoundingClientRect();
+      
+      const canvas = await html2canvas(element, {
         scale: 3,
         useCORS: true,
         backgroundColor: '#ffffff',
         allowTaint: true,
-        width: 800,
-        height: 1000,
+        width: rect.width,
+        height: rect.height,
         logging: false,
-        // 👈 OPCIONES IMPORTANTES
-        onclone: (document, element) => {
-          // Asegurar que el elemento tenga el tamaño correcto
-          element.style.width = '800px';
-          element.style.height = '1000px';
-          element.style.transform = 'none';
-          element.style.position = 'relative';
-          element.style.top = '0';
-          element.style.left = '0';
+        onclone: (document, clonedElement) => {
+          clonedElement.style.width = rect.width + 'px';
+          clonedElement.style.height = rect.height + 'px';
+          clonedElement.style.transform = 'none';
+          clonedElement.style.position = 'relative';
+          clonedElement.style.top = '0';
+          clonedElement.style.left = '0';
         }
       });
       
@@ -68,26 +70,30 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
+  // 👈 COMPARTIR CON IMAGEN - CON DIMENSIONES REALES
   const shareWithImage = async () => {
     if (isSharing) return;
     setIsSharing(true);
     
     try {
-      const canvas = await html2canvas(certificateRef.current, {
+      const element = certificateRef.current;
+      const rect = element.getBoundingClientRect();
+      
+      const canvas = await html2canvas(element, {
         scale: 2.5,
         useCORS: true,
         backgroundColor: '#ffffff',
         allowTaint: true,
-        width: 800,
-        height: 1000,
+        width: rect.width,
+        height: rect.height,
         logging: false,
-        onclone: (document, element) => {
-          element.style.width = '800px';
-          element.style.height = '1000px';
-          element.style.transform = 'none';
-          element.style.position = 'relative';
-          element.style.top = '0';
-          element.style.left = '0';
+        onclone: (document, clonedElement) => {
+          clonedElement.style.width = rect.width + 'px';
+          clonedElement.style.height = rect.height + 'px';
+          clonedElement.style.transform = 'none';
+          clonedElement.style.position = 'relative';
+          clonedElement.style.top = '0';
+          clonedElement.style.left = '0';
         }
       });
       
@@ -100,19 +106,21 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                       `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #CentroDeInformáticaUSS #EducaciónDigital`;
 
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      const file = new File([blob], `Certificado_Google_${nombreCompleto}.png`, { type: 'image/png' });
       
-      if (navigator.share && navigator.canShare) {
-        const file = new File([blob], `Certificado_Google_${nombreCompleto}.png`, { type: 'image/png' });
-        const shareData = {
-          title: 'Certificación Google LEVEL 1',
-          text: mensaje,
-          files: [file],
-        };
-        
-        if (navigator.canShare(shareData)) {
-          await navigator.share(shareData);
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Certificación Google LEVEL 1',
+            text: mensaje,
+            files: [file],
+          });
           setIsSharing(false);
           return;
+        } catch (shareError) {
+          if (shareError.name !== 'AbortError') {
+            console.log('Error en share:', shareError);
+          }
         }
       }
       
@@ -123,7 +131,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
       
       try {
         await navigator.clipboard.writeText(`${mensaje}\n\n${window.location.href}`);
-        alert('✅ Imagen descargada y mensaje copiado.\n\n¡Compártelo en tus redes sociales! 🎉');
+        alert('✅ Imagen descargada y mensaje copiado al portapapeles.\n\n¡Compártelo en tus redes sociales! 🎉');
       } catch (clipError) {
         alert('✅ Imagen descargada.\n\nMensaje para compartir:\n\n' + mensaje);
       }
@@ -136,6 +144,41 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     }
     
     setIsSharing(false);
+  };
+
+  // 👈 COMPARTIR EN REDES SOCIALES
+  const shareOnSocialMedia = (platform) => {
+    const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
+    const mensaje = `🎓 ¡Yo participé en la Certificación Google for Education LEVEL 1! 🚀\n\n` +
+                    `👨‍🎓 ${nombreCompleto}\n` +
+                    `📅 30 de junio · 3:00 PM\n` +
+                    `💻 Modalidad virtual vía Zoom\n\n` +
+                    `🏛️ Centro de Informática · Universidad Señor de Sipán\n` +
+                    `#GoogleForEducation #CertificaciónGoogle #GoogleLevel1 #CentroDeInformáticaUSS #EducaciónDigital`;
+
+    const url = window.location.href;
+    let shareUrl = '';
+
+    switch(platform) {
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${encodeURIComponent(mensaje + '\n\n' + url)}`;
+        break;
+      case 'facebook':
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(mensaje)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(mensaje)}&url=${encodeURIComponent(url)}`;
+        break;
+      case 'linkedin':
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+      default:
+        return;
+    }
+
+    if (shareUrl) {
+      window.open(shareUrl, '_blank', 'width=600,height=500,scrollbars=yes');
+    }
   };
 
   return (
@@ -191,14 +234,13 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           <FaTimes className="text-xl" />
         </button>
 
-        {/* ===== FLYER - SOLO EL FLYER ===== */}
+        {/* ===== FLYER - CON DIMENSIONES REALES ===== */}
         <div 
           ref={certificateRef}
           style={{
             width: '800px',
             height: '1000px',
             maxWidth: '90%',
-            aspectRatio: '4/5',
             backgroundColor: '#ffffff',
             position: 'relative',
             fontFamily: "'Poppins', 'Montserrat', Arial, sans-serif",
@@ -316,7 +358,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               textAlign: 'center',
             }}>
 
-              {/* Logo Google */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -334,7 +375,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 />
               </div>
 
-              {/* Línea decorativa */}
               <div style={{
                 width: '45px',
                 height: '3px',
@@ -350,7 +390,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 <div style={{ flex: 1, background: '#34a853' }} />
               </div>
 
-              {/* 👈 Tag Participación - TEXTO SIN GRADIENTE */}
               <p style={{
                 fontSize: '0.75rem',
                 fontWeight: '500',
@@ -362,7 +401,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Yo participé en
               </p>
 
-              {/* 👈 Título - TEXTO NORMAL, SIN GRADIENTE PARA MEJOR RENDERIZADO */}
               <h1 style={{
                 fontSize: '2.2rem',
                 fontWeight: '800',
@@ -386,7 +424,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Google LEVEL 1
               </h2>
 
-              {/* Nombre del participante */}
               <div style={{
                 marginBottom: '10px',
                 width: '100%',
@@ -411,7 +448,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 </h4>
               </div>
 
-              {/* Fecha y Lugar */}
               <div style={{
                 background: '#f8f9fa',
                 padding: '8px 16px',
@@ -439,7 +475,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 </p>
               </div>
 
-              {/* Hashtags */}
               <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -503,24 +538,66 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         </div>
 
         {/* ===== CONTROLES ===== */}
-        <div className="flex flex-wrap justify-center gap-4 mt-6 w-full max-w-md px-4">
+        <div className="flex flex-col items-center gap-4 mt-6 w-full max-w-md px-4">
+          <div className="flex gap-4 w-full">
+            <button
+              onClick={generateCertificate}
+              disabled={isGenerating}
+              className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#4285f4] to-[#34a853] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50"
+            >
+              <FaDownload />
+              {isGenerating ? 'Procesando...' : 'Descargar Flyer'}
+            </button>
+            
+            <button
+              onClick={shareWithImage}
+              disabled={isSharing}
+              className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#ea4335] to-[#fbbc05] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50"
+            >
+              <FaShare />
+              {isSharing ? 'Generando...' : 'Compartir Imagen'}
+            </button>
+          </div>
+
           <button
-            onClick={generateCertificate}
-            disabled={isGenerating}
-            className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#4285f4] to-[#34a853] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50 min-w-[140px]"
+            onClick={() => setShowShareOptions(!showShareOptions)}
+            className="text-sm text-gray-400 hover:text-white transition-colors"
           >
-            <FaDownload />
-            {isGenerating ? 'Procesando...' : 'Descargar Flyer'}
+            {showShareOptions ? 'Ocultar opciones' : 'Más opciones de compartir'}
           </button>
-          
-          <button
-            onClick={shareWithImage}
-            disabled={isSharing}
-            className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#ea4335] to-[#fbbc05] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50 min-w-[140px]"
-          >
-            <FaShare />
-            {isSharing ? 'Generando...' : 'Compartir Imagen'}
-          </button>
+
+          {showShareOptions && (
+            <div className="flex justify-around bg-zinc-800 p-4 rounded-xl w-full">
+              <button 
+                onClick={() => shareOnSocialMedia('whatsapp')}
+                className="text-white text-2xl hover:text-green-500 transition-colors"
+                title="Compartir en WhatsApp"
+              >
+                <FaWhatsapp />
+              </button>
+              <button 
+                onClick={() => shareOnSocialMedia('facebook')}
+                className="text-white text-2xl hover:text-blue-500 transition-colors"
+                title="Compartir en Facebook"
+              >
+                <FaFacebook />
+              </button>
+              <button 
+                onClick={() => shareOnSocialMedia('twitter')}
+                className="text-white text-2xl hover:text-sky-400 transition-colors"
+                title="Compartir en Twitter/X"
+              >
+                <FaTwitter />
+              </button>
+              <button 
+                onClick={() => shareOnSocialMedia('linkedin')}
+                className="text-white text-2xl hover:text-blue-600 transition-colors"
+                title="Compartir en LinkedIn"
+              >
+                <FaLinkedin />
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
