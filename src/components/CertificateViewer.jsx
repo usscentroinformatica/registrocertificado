@@ -6,10 +6,8 @@ import logoGoogle from '../assets/logoGoogle.png';
 const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
-  const [showShareOptions, setShowShareOptions] = useState(false);
   const certificateRef = useRef();
 
-  // Prevenir scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -24,7 +22,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     }
   };
 
-  // Cerrar con ESC
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') {
@@ -35,7 +32,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
-  // 👈 GENERAR CERTIFICADO - SIMPLIFICADO
+  // 👈 GENERAR CERTIFICADO - CORREGIDO
   const generateCertificate = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
@@ -48,6 +45,16 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         width: 800,
         height: 1000,
         logging: false,
+        // 👈 OPCIONES IMPORTANTES
+        onclone: (document, element) => {
+          // Asegurar que el elemento tenga el tamaño correcto
+          element.style.width = '800px';
+          element.style.height = '1000px';
+          element.style.transform = 'none';
+          element.style.position = 'relative';
+          element.style.top = '0';
+          element.style.left = '0';
+        }
       });
       
       const link = document.createElement('a');
@@ -61,7 +68,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // 👈 COMPARTIR CON IMAGEN - SIMPLIFICADO
   const shareWithImage = async () => {
     if (isSharing) return;
     setIsSharing(true);
@@ -75,6 +81,14 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         width: 800,
         height: 1000,
         logging: false,
+        onclone: (document, element) => {
+          element.style.width = '800px';
+          element.style.height = '1000px';
+          element.style.transform = 'none';
+          element.style.position = 'relative';
+          element.style.top = '0';
+          element.style.left = '0';
+        }
       });
       
       const nombreCompleto = `${userData.nombres || 'Participante'} ${userData.apellidos || ''}`.trim();
@@ -102,7 +116,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         }
       }
       
-      // Fallback
       const link = document.createElement('a');
       link.download = `Certificado_Google_${nombreCompleto}.png`;
       link.href = canvas.toDataURL('image/png', 1.0);
@@ -145,7 +158,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
       }}
     >
       <div 
-        className="relative flex flex-col items-center justify-start py-6 w-full max-w-full h-full"
+        className="relative flex flex-col items-center justify-start"
         style={{
           position: 'relative',
           display: 'flex',
@@ -154,13 +167,9 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           justifyContent: 'flex-start',
           paddingTop: '24px',
           paddingBottom: '24px',
-          width: '100%',
-          maxWidth: '100%',
-          height: '100%',
         }}
       >
         
-        {/* Botón cerrar */}
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-lg"
@@ -182,7 +191,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           <FaTimes className="text-xl" />
         </button>
 
-        {/* ===== FLYER ===== */}
+        {/* ===== FLYER - SOLO EL FLYER ===== */}
         <div 
           ref={certificateRef}
           style={{
@@ -201,14 +210,14 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           }}
         >
           
-          {/* ===== FONDO ===== */}
+          {/* ===== FONDO BLANCO ===== */}
           <div style={{
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'linear-gradient(145deg, #e8f0fe 0%, #ffffff 50%, #e8f0fe 100%)',
+            background: '#ffffff',
             zIndex: 0,
           }} />
 
@@ -341,7 +350,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 <div style={{ flex: 1, background: '#34a853' }} />
               </div>
 
-              {/* Tag Participación */}
+              {/* 👈 Tag Participación - TEXTO SIN GRADIENTE */}
               <p style={{
                 fontSize: '0.75rem',
                 fontWeight: '500',
@@ -353,7 +362,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Yo participé en
               </p>
 
-              {/* Título */}
+              {/* 👈 Título - TEXTO NORMAL, SIN GRADIENTE PARA MEJOR RENDERIZADO */}
               <h1 style={{
                 fontSize: '2.2rem',
                 fontWeight: '800',
@@ -368,9 +377,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               <h2 style={{
                 fontSize: '1.8rem',
                 fontWeight: '800',
-                background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: '#1a237e',
                 textTransform: 'uppercase',
                 letterSpacing: '2px',
                 margin: '-4px 0 12px 0',
@@ -496,26 +503,24 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         </div>
 
         {/* ===== CONTROLES ===== */}
-        <div className="flex flex-col items-center gap-4 mt-6 w-full max-w-md px-4">
-          <div className="flex gap-4 w-full">
-            <button
-              onClick={generateCertificate}
-              disabled={isGenerating}
-              className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#4285f4] to-[#34a853] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50"
-            >
-              <FaDownload />
-              {isGenerating ? 'Procesando...' : 'Descargar Flyer'}
-            </button>
-            
-            <button
-              onClick={shareWithImage}
-              disabled={isSharing}
-              className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#ea4335] to-[#fbbc05] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50"
-            >
-              <FaShare />
-              {isSharing ? 'Generando...' : 'Compartir Imagen'}
-            </button>
-          </div>
+        <div className="flex flex-wrap justify-center gap-4 mt-6 w-full max-w-md px-4">
+          <button
+            onClick={generateCertificate}
+            disabled={isGenerating}
+            className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#4285f4] to-[#34a853] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50 min-w-[140px]"
+          >
+            <FaDownload />
+            {isGenerating ? 'Procesando...' : 'Descargar Flyer'}
+          </button>
+          
+          <button
+            onClick={shareWithImage}
+            disabled={isSharing}
+            className="flex-1 flex items-center justify-center gap-2 py-3 px-6 bg-gradient-to-r from-[#ea4335] to-[#fbbc05] hover:opacity-90 text-white font-bold rounded-lg shadow-md transition-all disabled:opacity-50 min-w-[140px]"
+          >
+            <FaShare />
+            {isSharing ? 'Generando...' : 'Compartir Imagen'}
+          </button>
         </div>
 
       </div>
