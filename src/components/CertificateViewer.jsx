@@ -7,6 +7,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
   const [showShareOptions, setShowShareOptions] = useState(false);
   const certificateRef = useRef();
 
+  // 👈 Prevenir scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -21,6 +22,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     }
   };
 
+  // 👈 Cerrar con ESC
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') {
@@ -56,14 +58,60 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // 👈 RENDERIZADO DIRECTO - SIN PORTAL
+  // 👈 RENDERIZADO SIMPLE - SIN ANIMACIONES, SIN PORTAL, SIN DEPENDENCIAS COMPLEJAS
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4">
-      <div className="relative flex flex-col items-center justify-start py-6 w-full max-w-full h-full">
+    <div 
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4"
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.85)',
+        backdropFilter: 'blur(4px)',
+        padding: '16px',
+        overflowY: 'auto',
+      }}
+    >
+      <div 
+        className="relative flex flex-col items-center justify-start py-6 w-full max-w-full h-full"
+        style={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          paddingTop: '24px',
+          paddingBottom: '24px',
+          width: '100%',
+          maxWidth: '100%',
+          height: '100%',
+        }}
+      >
         
+        {/* 👈 Botón cerrar - SIMPLE, SIN ANIMACIONES */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all shadow-lg"
+          className="absolute top-4 right-4 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-lg"
+          style={{
+            position: 'absolute',
+            top: '16px',
+            right: '16px',
+            zIndex: 50,
+            padding: '12px',
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            borderRadius: '9999px',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'}
         >
           <FaTimes className="text-xl" />
         </button>
