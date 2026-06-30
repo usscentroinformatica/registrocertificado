@@ -6,12 +6,10 @@ import {
   FaGoogle, 
   FaUniversity,
   FaCamera,
-  FaUserCircle,
-  FaCertificate
+  FaUserCircle
 } from 'react-icons/fa';
 import { useGoogleSheetsRegistration } from '../hooks/useGoogleSheetsRegistration';
 import toast from 'react-hot-toast';
-import CertificateViewer from './CertificateViewer';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -32,29 +30,12 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [fotoPreview, setFotoPreview] = useState(null);
-  const [showCertificate, setShowCertificate] = useState(false);
-  const [registeredUser, setRegisteredUser] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const fileInputRef = useRef(null);
 
   const { registerUser, isSubmitting: isSubmittingHook, success } = useGoogleSheetsRegistration();
   const [isSubmittingLocal, setIsSubmittingLocal] = useState(false);
   const isSubmitting = isSubmittingHook || isSubmittingLocal;
-
-  // Control del modal
-  const handleViewPost = () => {
-    setIsModalOpen(true);
-    setShowCertificate(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowCertificate(false);
-    setIsModalOpen(false);
-    setTimeout(() => {
-      setRegisteredUser(null);
-    }, 300);
-  };
 
   // Validación para deshabilitar el botón
   const isFormValid = () => {
@@ -122,7 +103,7 @@ const RegistrationForm = () => {
         break;
 
       case 'foto':
-        if (!value) error = 'Sube una foto para tu post';
+        if (!value) error = 'Sube una foto';
         break;
 
       case 'politica':
@@ -236,15 +217,8 @@ const RegistrationForm = () => {
       const result = await registerUser(formDataToSend);
 
       if (result?.success) {
-        toast.success('¡Registro exitoso! Tu post está listo.');
+        toast.success('✅ ¡Registro exitoso!');
         
-        setRegisteredUser({
-          nombres: formData.nombres || '',
-          apellidos: formData.apellidos || '',
-          email: formData.correo || '',
-          fotoUrl: result.fotoUrl || fotoPreview || null,
-        });
-
         setTimeout(() => {
           setFormData({
             nombres: '',
@@ -287,10 +261,10 @@ const RegistrationForm = () => {
             <FaUniversity className="text-4xl text-uss-blue" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-            Participa y obtén tu <span className="text-uss-blue">Post Digital</span>
+            Inscríbete <span className="text-uss-blue">Ahora</span>
           </h2>
           <p className="text-gray-500 mt-2 max-w-2xl mx-auto">
-            Completa el formulario y genera tu post de participación.
+            Completa el formulario y asegura tu cupo en la certificación.
             <span className="block text-sm text-uss-blue font-semibold mt-1">
               ¡Cupos limitados!
             </span>
@@ -554,7 +528,7 @@ const RegistrationForm = () => {
 
             <div className="flex flex-col gap-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Sube tu foto para el post *
+                Sube tu foto *
               </label>
               <div className="flex items-center gap-4">
                 <button
@@ -624,7 +598,7 @@ const RegistrationForm = () => {
               </div>
             </div>
 
-            {/* Botón Submit - ESTABLE SIN SPINNER CONDICIONAL */}
+            {/* Botón Submit */}
             <div className="md:col-span-2 text-center">
               <button
                 type="submit"
@@ -635,15 +609,15 @@ const RegistrationForm = () => {
                   {isSubmitting ? (
                     <>
                       <FaSpinner className="animate-spin" />
-                      Generando tu post...
+                      Registrando...
                     </>
                   ) : success ? (
                     <>
-                      <FaCheckCircle /> ¡Post listo!
+                      <FaCheckCircle /> ¡Registrado!
                     </>
                   ) : (
                     <>
-                      <FaCheckCircle /> GENERAR MI POST
+                      <FaCheckCircle /> REGISTRARME
                     </>
                   )}
                 </span>
@@ -651,49 +625,19 @@ const RegistrationForm = () => {
 
               {!isFormValid() && !isSubmitting && !success && (
                 <p className="text-sm text-amber-600 mt-2">
-                  ⚠️ Completa todos los campos obligatorios para generar tu post
+                  ⚠️ Completa todos los campos obligatorios para registrarte
                 </p>
               )}
 
               {isSubmitting && (
                 <p className="text-sm text-gray-500 mt-3">
-                  Estamos preparando tu post digital...
+                  Estamos procesando tu registro...
                 </p>
               )}
             </div>
           </form>
-
-          {/* Mensaje de éxito */}
-          {success && registeredUser && (
-            <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-2xl text-center">
-              <FaCheckCircle className="text-4xl text-green-500 mx-auto mb-3" />
-              <h3 className="text-xl font-bold text-green-700 mb-2">
-                ¡Tu post está listo!
-              </h3>
-              <p className="text-green-600 mb-4">
-                Comparte tu participación en redes sociales
-              </p>
-              <button
-                onClick={handleViewPost}
-                className="btn-primary flex items-center gap-2 mx-auto"
-              >
-                <FaCertificate />
-                Ver mi Post
-              </button>
-            </div>
-          )}
         </div>
       </div>
-
-      {/* Modal del Post - Controlado */}
-      {isModalOpen && registeredUser && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/85 backdrop-blur-sm overflow-y-auto p-4">
-          <CertificateViewer 
-            userData={registeredUser}
-            onClose={handleCloseModal}
-          />
-        </div>
-      )}
     </section>
   );
 };
