@@ -17,8 +17,8 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         useCORS: true,
         backgroundColor: '#ffffff',
         allowTaint: false,
-        width: 1080,
-        height: 1350,
+        width: 800,
+        height: 1000,
       });
       
       const link = document.createElement('a');
@@ -43,7 +43,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
           <FaTimes className="text-xl" />
         </button>
 
-        {/* ===== FLYER - MÁS ESTRECHO ===== */}
+        {/* ===== FLYER ===== */}
         <div 
           ref={certificateRef}
           style={{
@@ -96,6 +96,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'center',
             padding: '25px 25px',
             width: '100%',
             height: '100%',
@@ -155,22 +156,26 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               </div>
             </div>
 
-            {/* ===== MITAD DERECHA - DATOS ===== */}
+            {/* ===== MITAD DERECHA - DATOS CENTRADOS ===== */}
             <div style={{
               width: '52%',
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              padding: '5px 5px',
+              alignItems: 'center',
+              padding: '5px 10px',
+              textAlign: 'center',
             }}>
 
               {/* Logo Google */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '5px',
                 marginBottom: '6px',
+                width: '100%',
               }}>
                 <div style={{
                   display: 'flex',
@@ -194,7 +199,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 </span>
               </div>
 
-              {/* Línea decorativa */}
+              {/* Línea decorativa centrada */}
               <div style={{
                 width: '35px',
                 height: '2px',
@@ -202,6 +207,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 marginBottom: '6px',
                 borderRadius: '2px',
                 overflow: 'hidden',
+                alignSelf: 'center',
               }}>
                 <div style={{ flex: 1, background: '#4285f4' }} />
                 <div style={{ flex: 1, background: '#ea4335' }} />
@@ -215,7 +221,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 fontWeight: '500',
                 color: '#5f6368',
                 letterSpacing: '1.5px',
-                margin: 0,
+                margin: '0 auto',
                 textTransform: 'uppercase',
               }}>
                 Yo participaré en la
@@ -250,12 +256,13 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
               {/* Nombre del participante */}
               <div style={{
                 marginBottom: '6px',
+                width: '100%',
               }}>
                 <h3 style={{
                   fontSize: 'clamp(1.1rem, 1.5vw, 1.8rem)',
                   fontWeight: '700',
                   color: '#1a237e',
-                  margin: 0,
+                  margin: '0 auto',
                   lineHeight: '1.15',
                 }}>
                   {userData.nombres || 'NOMBRE'}
@@ -264,7 +271,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   fontSize: 'clamp(0.85rem, 1.1vw, 1.3rem)',
                   fontWeight: '600',
                   color: '#5f6368',
-                  margin: '1px 0 0 0',
+                  margin: '1px auto 0 auto',
                   lineHeight: '1.15',
                 }}>
                   {userData.apellidos || 'APELLIDOS'}
@@ -273,7 +280,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   fontSize: 'clamp(0.55rem, 0.7vw, 0.75rem)',
                   fontWeight: '600',
                   color: '#4285f4',
-                  margin: '3px 0 0 0',
+                  margin: '3px auto 0 auto',
                   letterSpacing: '2px',
                   textTransform: 'uppercase',
                 }}>
@@ -281,13 +288,16 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 </p>
               </div>
 
-              {/* Fecha y Lugar */}
+              {/* Fecha y Lugar - Centrado */}
               <div style={{
                 background: '#f8f9fa',
-                padding: '6px 12px',
+                padding: '6px 14px',
                 borderRadius: '10px',
                 border: '1px solid #e8eaed',
                 marginBottom: '6px',
+                width: '100%',
+                maxWidth: '200px',
+                alignSelf: 'center',
               }}>
                 <p style={{
                   fontSize: '0.6rem',
@@ -295,6 +305,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   margin: 0,
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '5px',
                 }}>
                   <span>📍</span> Chiclayo, Perú
@@ -305,18 +316,20 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   margin: '2px 0 0 0',
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '5px',
                 }}>
                   <span>📅</span> 30 de junio
                 </p>
               </div>
 
-              {/* Hashtags */}
+              {/* Hashtags - Centrados */}
               <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
                 gap: '4px',
                 marginTop: '3px',
+                justifyContent: 'center',
               }}>
                 <span style={{
                   fontSize: '0.4rem',
