@@ -9,7 +9,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
   const certificateRef = useRef();
 
-  // 👈 Control de visibilidad para animación de salida
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -19,7 +18,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
 
   const handleClose = () => {
     setIsVisible(false);
-    // Esperar a que termine la animación de salida
     setTimeout(() => {
       document.body.style.overflow = 'unset';
       if (onClose) {
@@ -49,6 +47,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
         allowTaint: false,
         width: 800,
         height: 1000,
+        logging: false,
       });
       
       const link = document.createElement('a');
@@ -62,7 +61,6 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
     setIsGenerating(false);
   };
 
-  // 👈 Si no es visible, no renderizar nada
   if (!isVisible) {
     return null;
   }
@@ -252,7 +250,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
 
               {/* Tag Participación */}
               <p style={{
-                fontSize: '0.55rem',
+                fontSize: '0.6rem',
                 fontWeight: '500',
                 color: '#5f6368',
                 letterSpacing: '1.5px',
@@ -262,9 +260,9 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Yo participaré en la
               </p>
 
-              {/* Título */}
+              {/* Título - TAMAÑOS FIJOS */}
               <h1 style={{
-                fontSize: 'clamp(1.4rem, 1.8vw, 2.2rem)',
+                fontSize: '1.8rem',
                 fontWeight: '800',
                 color: '#1a237e',
                 textTransform: 'uppercase',
@@ -275,7 +273,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Certificación
               </h1>
               <h2 style={{
-                fontSize: 'clamp(1.1rem, 1.5vw, 1.8rem)',
+                fontSize: '1.5rem',
                 fontWeight: '800',
                 background: 'linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853)',
                 WebkitBackgroundClip: 'text',
@@ -288,13 +286,13 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 Google LEVEL 1
               </h2>
 
-              {/* Nombre del participante */}
+              {/* Nombre del participante - TAMAÑOS FIJOS */}
               <div style={{
                 marginBottom: '6px',
                 width: '100%',
               }}>
                 <h3 style={{
-                  fontSize: 'clamp(1.1rem, 1.5vw, 1.8rem)',
+                  fontSize: '1.6rem',
                   fontWeight: '700',
                   color: '#1a237e',
                   margin: '0 auto',
@@ -303,7 +301,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   {userData.nombres || 'NOMBRE'}
                 </h3>
                 <h4 style={{
-                  fontSize: 'clamp(0.85rem, 1.1vw, 1.3rem)',
+                  fontSize: '1.2rem',
                   fontWeight: '600',
                   color: '#5f6368',
                   margin: '1px auto 0 auto',
@@ -312,7 +310,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   {userData.apellidos || 'APELLIDOS'}
                 </h4>
                 <p style={{
-                  fontSize: 'clamp(0.55rem, 0.7vw, 0.75rem)',
+                  fontSize: '0.7rem',
                   fontWeight: '600',
                   color: '#4285f4',
                   margin: '3px auto 0 auto',
@@ -367,7 +365,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                 justifyContent: 'center',
               }}>
                 <span style={{
-                  fontSize: '0.4rem',
+                  fontSize: '0.45rem',
                   color: '#4285f4',
                   background: '#e8f0fe',
                   padding: '2px 8px',
@@ -377,7 +375,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   #GoogleForEducation
                 </span>
                 <span style={{
-                  fontSize: '0.4rem',
+                  fontSize: '0.45rem',
                   color: '#d93025',
                   background: '#fce8e6',
                   padding: '2px 8px',
@@ -387,7 +385,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   #CertificaciónGoogle
                 </span>
                 <span style={{
-                  fontSize: '0.4rem',
+                  fontSize: '0.45rem',
                   color: '#e37400',
                   background: '#fef7e0',
                   padding: '2px 8px',
@@ -397,7 +395,7 @@ const CertificateViewer = ({ userData = {}, onClose }) => {
                   #GoogleLevel1
                 </span>
                 <span style={{
-                  fontSize: '0.4rem',
+                  fontSize: '0.45rem',
                   color: '#1e8e3e',
                   background: '#e6f4ea',
                   padding: '2px 8px',
